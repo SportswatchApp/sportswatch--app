@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sportswatch/screens/signup.dart';
+import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -16,15 +18,15 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: SportsWatchColors.backgroundColor,
+        backgroundColor: SportsWatchColors.backgroundColor,
         body: Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[_buildLoginForm(context)]),
-      ),
-    ));
+          padding: EdgeInsets.all(20.0),
+          child: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[_buildLoginForm(context)]),
+          ),
+        ));
   }
 
   Widget _buildLoginForm(BuildContext context) {
@@ -32,6 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+              child: Image.asset(
+                'static/images/sportswatchlogo.png',
+                width: 60,
+              ),
+            ),
+          ),
           TextInputField(
             hintText: 'Indtast e-mail',
           ),
@@ -39,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 5),
           ),
           PasswordInputField(
-            hintText: 'Indtast password',
+            hintText: 'Indtast adgangskode',
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -64,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
-                onPressed: () => {},
+                onPressed: () => jumpSignupScreen(),
                 text: 'Opret ny bruger',
               ),
             ),
@@ -72,5 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+
+  void jumpSignupScreen() {
+    /**Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignupScreen()),
+    );**/
+    AlertMessage('Hejsa', 'Noget').showAlertDialog(context);
   }
 }
