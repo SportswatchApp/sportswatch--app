@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/screens/signup.dart';
+import 'package:sportswatch/screens/stopwatch.dart';
 import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
@@ -53,15 +54,32 @@ class _LoginScreenState extends State<LoginScreen> {
             hintText: 'Indtast adgangskode',
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: AddButton(
-                  text: 'Login',
-                  onPressed: () => {},
-                ),
-              )),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 40,
+              child: AddButton(
+                text: 'Login',
+                onPressed: () => {},
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 40,
+              child: AddButton(
+                text: 'Debug login',
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StopwatchScreen()))
+                },
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
@@ -86,10 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void jumpSignupScreen() {
-    /**Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignupScreen()),
-    );**/
-    AlertMessage('Hejsa', 'Noget').showAlertDialog(context);
+    );
   }
 }
