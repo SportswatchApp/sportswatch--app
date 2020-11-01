@@ -17,7 +17,7 @@ class Application extends StatelessWidget {
         accentColor: Colors.black,
         fontFamily: 'Quicksand',
       ),
-      home: LoginScreen(),
+      home: LoginScreen()
     );
   }
 }

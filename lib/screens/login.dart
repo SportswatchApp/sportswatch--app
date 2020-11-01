@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/screens/signup.dart';
-import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -15,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final storage = new FlutterSecureStorage();
+  Future<bool> _loggedIn;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,9 +63,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40,
                 child: AddButton(
                   text: 'Login',
-                  onPressed: () => {},
+                  onPressed: () {
+                    setState(() {
+                      _loggedIn = login();
+                    });
+                  },
                 ),
               )),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: FutureBuilder(
+              future: getToken(),
+              initialData: 'Token: ',
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text("token: ${snapshot.data}");
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
@@ -85,11 +109,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<String> getToken() async {
+    return await storage.read(key: "token");
+  }
+
+  Future<bool> login() async {
+    return await api.user.login(storage, 'tt@dd.com', 'qwerty');
+  }
+
   void jumpSignupScreen() {
-    /**Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignupScreen()),
-    );**/
-    AlertMessage('Hejsa', 'Noget').showAlertDialog(context);
+    );
   }
 }

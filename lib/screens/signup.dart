@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/client/models/user_model.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -14,6 +18,9 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+
+  Future<UserModel> _response;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +40,17 @@ class _SignupScreenState extends State<SignupScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Heading1('Opret ny bruger'),
+              (_response != null) ? FutureBuilder<UserModel>(
+                future: _response,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data.email);
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return CircularProgressIndicator();
+                },
+              ) : Text(''),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
@@ -70,7 +88,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 40,
                     child: AddButton(
                       text: 'Opret bruger',
-                      onPressed: () => {},
+                      onPressed: () {
+                        setState(() {
+                          _response = callApi();
+                        });
+                      }
                     ),
                   )
               ),
@@ -82,10 +104,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     text: 'Allerede oprettet? Login her',
                   ),
                 ),
-              )
-            ]
-        )
+              ),
+            ],
+        ),
     );
+  }
+
+  Future<UserModel> callApi() async {
+    return await api.user.post('emwedail@dd.com', 'tobias', 'dybdahl', 'qwerty', 'qwerty');
   }
 
   void jumpLoginPage() {
