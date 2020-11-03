@@ -28,7 +28,7 @@ class _SignupScreenState extends State<SignupScreen> {
         body: Padding(
           padding: EdgeInsets.all(20.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[_buildSignupPage(context)]),
         )
     );

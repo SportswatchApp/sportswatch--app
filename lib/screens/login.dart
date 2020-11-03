@@ -80,7 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   return Text("token: ${snapshot.data}");
                 } else {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      backgroundColor: SportsWatchColors.primary,
+                    ),
                   );
                 }
               },
