@@ -7,6 +7,7 @@ import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/input/password.dart';
 import 'package:sportswatch/widgets/input/text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -101,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
-                onPressed: () => jumpSignupScreen(),
+                onPressed: () => _launchURL(),
                 text: 'Opret ny bruger',
               ),
             ),
@@ -119,10 +120,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return await api.user.login(storage, 'tt@dd.com', 'qwerty');
   }
 
-  void jumpSignupScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SignupScreen()),
-    );
+  _launchURL() async {
+    const url = 'https://signup.sportswatchapp.dk/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
