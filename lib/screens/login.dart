@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sportswatch/client/api/api.dart';
-import 'package:sportswatch/screens/signup.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -121,9 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _launchURL() async {
-    const url = 'https://signup.sportswatchapp.dk/';
+    const url = 'https://sportswatchapp.dk/signup/';
     if (await canLaunch(url)) {
-      await launch(url);
+      await launch(url, forceWebView: true, enableJavaScript: true);
     } else {
       throw 'Could not launch $url';
     }
