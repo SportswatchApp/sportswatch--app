@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 
 class PasswordInputField extends StatelessWidget {
-  PasswordInputField({Key key, this.hintText});
+  PasswordInputField({Key key, this.hintText, this.controller});
 
   final String hintText;
+  TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        controller: this.controller,
         enableSuggestions: false,
         autocorrect: false,
         obscureText: true,

@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 
 class TextInputField extends StatelessWidget {
-  TextInputField({Key key, this.hintText});
+  TextInputField({Key key, this.hintText, this.controller});
 
   final String hintText;
+  TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        controller: this.controller,
         cursorColor: SportsWatchColors.primary,
         decoration: InputDecoration(
           filled: true,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:sportswatch/client/error.dart';
 import 'package:sportswatch/client/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -34,7 +35,7 @@ class UserApi {
     if (response.statusCode == 201) {
       return UserModel.fromJson(json);
     } else {
-      throw Exception(json["details"]);
+      throw ApiException(json["details"]);
     }
 
   }
@@ -58,7 +59,7 @@ class UserApi {
       await storage.write(key: 'token', value: token);
       return true;
     } else {
-      throw Exception(json['details']);
+      throw ApiException(json['detail']);
     }
 
   }

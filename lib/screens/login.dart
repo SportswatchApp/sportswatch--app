@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/screens/front_page.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/input/password.dart';
 import 'package:sportswatch/widgets/input/text.dart';
+import 'package:sportswatch/widgets/loading/default.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,7 +19,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final storage = new FlutterSecureStorage();
-  Future<bool> _loggedIn;
+  bool _waiting = false;
+  bool _loginSuccess = false;
+  String _error = "";
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,42 +44,44 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Center(
-              child: Image.asset(
-                'static/images/sportswatchlogo.png',
-                width: 60,
-              ),
+          Center(
+            child: Image.asset(
+              'static/images/sportswatchlogo.png',
+              width: 60,
             ),
           ),
+          _loadOrShowError(),
           TextInputField(
             hintText: 'Indtast e-mail',
+            controller: emailController,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
           ),
           PasswordInputField(
             hintText: 'Indtast adgangskode',
+            controller: passwordController,
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: AddButton(
-                  text: 'Login',
-                  onPressed: () {
-                    setState(() {
-                      _loggedIn = login();
-                    });
-                  },
-                ),
-              )),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 40,
+              child: AddButton(
+                text: 'Login',
+                onPressed: () {
+                  setState(() {
+                    _waiting = true;
+                  });
+                  _login();
+                },
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: FutureBuilder(
-              future: getToken(),
+              future: _getToken(),
               initialData: 'Token: ',
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -101,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
-                onPressed: () => _launchURL(),
+                onPressed: () => _launchSignupWebsite(),
                 text: 'Opret ny bruger',
               ),
             ),
@@ -111,15 +119,55 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<String> getToken() async {
+  StatefulWidget pageAfterLoginSuccess() {
+    return FrontPageScreen();
+  }
+
+  Future<String> _getToken() async {
     return await storage.read(key: "token");
   }
 
-  Future<bool> login() async {
-    return await api.user.login(storage, 'tt@dd.com', 'qwerty');
+  void _login() {
+    api.user.login(storage, emailController.text, passwordController.text).then(
+        (loggedIn) {
+      setState(() {
+        _waiting = false;
+        _error = "";
+        _loginSuccess = true;
+      });
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => pageAfterLoginSuccess()), (route) => false);
+    }, onError: (error) {
+      setState(() {
+        _waiting = false;
+        _error = error.toString();
+        _loginSuccess = false;
+      });
+    });
   }
 
-  _launchURL() async {
+  Widget _loadOrShowError() {
+    if (_waiting) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Center(
+          child: LoadingCircle()
+        ),
+      );
+    } else if (_error.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Center(
+            child: Text(_error)
+        ),
+      );
+    } else {
+      return Padding(padding: EdgeInsets.symmetric(vertical: 0), child: Text(''));
+    }
+  }
+
+  _launchSignupWebsite() async {
     const url = 'https://sportswatchapp.dk/signup/';
     if (await canLaunch(url)) {
       await launch(url, forceWebView: true, enableJavaScript: true);
