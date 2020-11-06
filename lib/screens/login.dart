@@ -54,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
           TextInputField(
             hintText: 'Indtast e-mail',
             controller: emailController,
+            keyboardType: TextInputType.emailAddress,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),

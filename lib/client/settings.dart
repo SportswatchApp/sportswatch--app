@@ -1,7 +1,9 @@
 class ApiSettings {
 
   String baseUrl() {
-    return 'http://127.0.0.1:8000/api/v1/';
+    //String domain = 'http://127.0.0.1:8000'; // Local
+    String domain = 'https://test.sportswatchapp.dk'; // Test server
+    return domain + '/api/v1/';
   }
 
   Map<String, String> headers() {
