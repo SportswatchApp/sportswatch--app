@@ -10,7 +10,12 @@ class SimpleTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: onPressed,
-        child: Text(this.text, style: new TextStyle(fontSize: 15.0, color: SportsWatchColors.fontColor)));
+      onPressed: onPressed,
+      child: Text(
+        this.text,
+        style:
+            new TextStyle(fontSize: 15.0, color: SportsWatchColors.fontColor),
+      ),
+    );
   }
 }
