@@ -19,11 +19,21 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: SportsWatchColors.backgroundColor,
-      body: Padding(
-        padding: EdgeInsets.all(20),
+      body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[_stopwatch(context), _startStop(), _resetTime()],
+          //mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            _stopwatch(context),
+            _startStop(),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _uploadTime(),
+                _resetTime(),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -31,7 +41,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   Widget _stopwatch(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 50),
       child: StreamBuilder<int>(
         stream: _stopWatchTimer.rawTime,
         initialData: _stopWatchTimer.rawTime.value,
@@ -94,5 +104,22 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         },
       ),
     );
+  }
+
+  Widget _uploadTime() {
+    return Padding(
+      padding: EdgeInsets.all(2),
+      child: RaisedButton(
+        color: Colors.green,
+        child: Text('Upload'),
+        onPressed: () async {
+          uploadBtnFunction();
+        },
+      ),
+    );
+  }
+
+  void uploadBtnFunction() {
+    print("Hello");
   }
 }

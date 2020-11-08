@@ -23,8 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[_buildSignupPage(context)]),
-        )
-    );
+        ));
   }
 
   Widget _buildSignupPage(BuildContext context) {
@@ -32,64 +31,60 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Heading1('Opret ny bruger'),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              TextInputField(
-                hintText: 'Indtast e-mail',
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              TextInputField(
-                hintText: 'Indtast fornavn',
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              TextInputField(
-                hintText: 'Indtast efternavn',
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              PasswordInputField(
-                hintText: 'Indtast adgangskode',
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              PasswordInputField(
-                hintText: 'Gentag adgangskode',
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: AddButton(
-                      text: 'Opret bruger',
-                      onPressed: () => {},
-                    ),
-                  )
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 0),
-                child: Center(
-                  child: SimpleTextButton(
-                    onPressed: () => jumpLoginPage(),
-                    text: 'Allerede oprettet? Login her',
-                  ),
+          Heading1('Opret ny bruger'),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          TextInputField(
+            hintText: 'Indtast e-mail',
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          TextInputField(
+            hintText: 'Indtast fornavn',
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          TextInputField(
+            hintText: 'Indtast efternavn',
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          PasswordInputField(
+            hintText: 'Indtast adgangskode',
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          PasswordInputField(
+            hintText: 'Gentag adgangskode',
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: AddButton(
+                  text: 'Opret bruger',
+                  onPressed: () => {},
                 ),
-              )
-            ]
-        )
-    );
+              )),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            child: Center(
+              child: SimpleTextButton(
+                onPressed: () => jumpLoginPage(),
+                text: 'Allerede oprettet? Login her',
+              ),
+            ),
+          )
+        ]));
   }
 
   void jumpLoginPage() {
     Navigator.pop(context);
   }
-
 }
