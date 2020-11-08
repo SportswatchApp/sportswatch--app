@@ -19,6 +19,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+      selectedIndex: 0,
       body: Center(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.start,
