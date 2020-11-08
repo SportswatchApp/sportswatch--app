@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sportswatch/client/api/api.dart';
-import 'package:sportswatch/screens/stopwatch.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -19,12 +17,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final storage = new FlutterSecureStorage();
   bool _waiting = false;
   bool _loginSuccess = false;
   String _error = "";
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  Api _api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -81,24 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: FutureBuilder(
-              future: _getToken(),
-              initialData: 'Token: ',
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text("token: ${snapshot.data}");
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: SportsWatchColors.primary,
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-          Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
@@ -125,13 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return MainScaffoldController();
   }
 
-  Future<String> _getToken() async {
-    return await storage.read(key: "token");
-  }
-
   void _login() {
-    api.user.login(storage, emailController.text, passwordController.text).then(
-        (loggedIn) {
+    _api.users.login(emailController.text, passwordController.text).listen((event) {
       setState(() {
         _waiting = false;
         _error = "";
@@ -143,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }, onError: (error) {
       setState(() {
         _waiting = false;
-        _error = error.toString();
+        _error = error.detail;
         _loginSuccess = false;
       });
     });

@@ -12,14 +12,10 @@ class Routing {
         return [
           StopwatchScreen(),
           GraphScreen(),
-          ProfileScreen(),
+          ProfileScreen()
         ].elementAt(index);
       },
     };
-  }
-
-  void _someSubPage(context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => StopwatchScreen()));
   }
 
 }

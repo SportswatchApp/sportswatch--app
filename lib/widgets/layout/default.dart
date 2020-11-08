@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/routing.dart';
 
-
 class MainScaffoldController extends StatefulWidget {
   @override
   _MainScaffoldControllerState createState() => _MainScaffoldControllerState();
@@ -21,24 +20,11 @@ class _MainScaffoldControllerState extends State<MainScaffoldController> {
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
-        !await _navigatorKeys[_selectedIndex].currentState.maybePop();
+            !await _navigatorKeys[_selectedIndex].currentState.maybePop();
         // let system handle back button if we're on the first route
         return isFirstRouteInCurrentTab;
       },
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
-          child: Center(
-            child: AppBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text("Tobias")],
-              ),
-              backgroundColor: SportsWatchColors.appBarColor,
-              elevation: 3,
-            ),
-          ),
-        ),
         backgroundColor: SportsWatchColors.backgroundColor,
         body: Stack(
           children: [
@@ -65,8 +51,7 @@ class _MainScaffoldControllerState extends State<MainScaffoldController> {
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: SportsWatchColors.primary,
-            onTap: (int index) => setState(() => _selectedIndex = index)
-        ),
+            onTap: (int index) => setState(() => _selectedIndex = index)),
       ),
     );
   }
