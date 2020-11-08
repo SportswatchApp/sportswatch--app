@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sportswatch/client/api/api.dart';
-import 'package:sportswatch/screens/front_page.dart';
+import 'package:sportswatch/screens/stopwatch.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   StatefulWidget pageAfterLoginSuccess() {
-    return FrontPageScreen();
+    return StopwatchScreen();
   }
 
   Future<String> _getToken() async {

@@ -12,5 +12,4 @@ class ApiSettings {
       'Content-Language': 'da'
     };
   }
-
 }

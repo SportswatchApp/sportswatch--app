@@ -5,6 +5,7 @@ import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/headings/h1.dart';
 import 'package:sportswatch/widgets/input/password.dart';
 import 'package:sportswatch/widgets/input/text.dart';
+import 'package:sportswatch/widgets/scaffold/default.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class StopwatchScreen extends StatefulWidget {
@@ -17,8 +18,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: SportsWatchColors.backgroundColor,
+    return MainScaffold(
       body: Center(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +35,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
             ),
           ],
         ),
-      ),
+      )
     );
   }
 
@@ -110,7 +110,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     return Padding(
       padding: EdgeInsets.all(2),
       child: RaisedButton(
-        color: Colors.green,
+        color: SportsWatchColors.greenColor,
         child: Text('Upload'),
         onPressed: () async {
           uploadBtnFunction();
