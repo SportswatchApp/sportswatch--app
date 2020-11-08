@@ -8,6 +8,7 @@ import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/input/password.dart';
 import 'package:sportswatch/widgets/input/text.dart';
 import 'package:sportswatch/widgets/loading/default.dart';
+import 'package:sportswatch/widgets/layout/default.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -121,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   StatefulWidget pageAfterLoginSuccess() {
-    return StopwatchScreen();
+    return MainScaffoldController();
   }
 
   Future<String> _getToken() async {
