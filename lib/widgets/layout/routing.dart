@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:sportswatch/screens/graphs/graphs.dart';
 import 'package:sportswatch/screens/profile/profile.dart';
 import 'package:sportswatch/screens/stopwatch.dart';
@@ -16,4 +17,9 @@ class Routing {
       },
     };
   }
+
+  void _someSubPage(context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => StopwatchScreen()));
+  }
+
 }
