@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportswatch/screens/uploadPopup.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -15,28 +16,28 @@ class StopwatchScreen extends StatefulWidget {
 class _StopwatchScreenState extends State<StopwatchScreen> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   String _startOrStop = "Start";
+  int _currentStopWatchTime = 0;
 
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      body: Center(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _stopwatch(context),
-            _startStop(),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _uploadTime(),
-                _resetTime(),
-              ],
-            ),
-          ],
-        ),
-      )
-    );
+        body: Center(
+      child: Column(
+        //mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          _stopwatch(context),
+          _startStop(),
+          Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _uploadTime(),
+              _resetTime(),
+            ],
+          ),
+        ],
+      ),
+    ));
   }
 
   Widget _stopwatch(BuildContext context) {
@@ -46,9 +47,9 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         stream: _stopWatchTimer.rawTime,
         initialData: _stopWatchTimer.rawTime.value,
         builder: (context, snap) {
-          final value = snap.data;
-          final displayTime =
-              StopWatchTimer.getDisplayTime(value, hours: false, minute: false);
+          final stopwatchValue = snap.data;
+          final displayTime = StopWatchTimer.getDisplayTime(stopwatchValue,
+              hours: false, minute: false);
           return Column(
             children: <Widget>[
               Padding(
@@ -120,6 +121,11 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   }
 
   void uploadBtnFunction() {
-    print("Hello");
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return uploadPopup(1);
+      },
+    );
   }
 }
