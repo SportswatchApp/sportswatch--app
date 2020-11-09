@@ -4,7 +4,7 @@ import 'package:sportswatch/client/models/user_model.dart';
 import 'package:sportswatch/screens/profile/tabs/tab.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
-import 'package:sportswatch/widgets/loading/default.dart';
+import 'package:sportswatch/widgets/loading/loadingScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -12,34 +12,44 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Api _api = Api();
+  UserModel user;
+  String error;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar("Profil"),
-      body: buildProfile(),
+      body: RefreshIndicator(
+        child: buildProfile(),
+        onRefresh: () async {
+          loadUserData();
+          return;
+        },
+      ),
       backgroundColor: SportsWatchColors.backgroundColor,
     );
   }
 
   Widget buildProfile() {
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-      children: [buildProfileInformation()],
-    );
+    if (isLoading) {
+      return LoadingScreen();
+    } else {
+      return ListView(
+        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+        children: [buildProfileInformation()],
+      );
+    }
   }
 
   Widget buildProfileInformation() {
-    return StreamBuilder<UserModel>(
-      stream: _api.user.get(),
-      builder: (BuildContext context, AsyncSnapshot<UserModel> model) {
-        if (model.hasData) {
-          return displayProfileInformation(model.data);
-        } else {
-          return LoadingCircle();
-        }
-      },
-    );
+    return displayProfileInformation(user);
   }
 
   Widget displayProfileInformation(UserModel user) {
@@ -62,6 +72,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void loadUserData() {
+    setState(() {
+      isLoading = true;
+    });
+    _api.user.get().listen((UserModel userModel) {
+      setState(() {
+        user = userModel;
+        isLoading = false;
+      });
+    }, onError: (_error) {
+      setState(() {
+        error = _error.detail;
+        isLoading = false;
+      });
+    });
   }
 
   void _pushTestTabScreen() {
