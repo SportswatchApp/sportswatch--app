@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/user_model.dart';
-import 'package:sportswatch/screens/profile/tabs/create_club/create_club.dart';
+import 'package:sportswatch/screens/profile/tabs/create_club.dart';
 import 'package:sportswatch/screens/profile/tabs/tab.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';

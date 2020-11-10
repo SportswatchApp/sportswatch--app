@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sportswatch/screens/_callback_screens/single_text_field_screen.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
-
-import '_name.dart';
 
 class CreateClubScreen extends StatefulWidget {
   _CreateClubScreenState createState() => _CreateClubScreenState();
@@ -17,6 +16,8 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
     'Indtast land',
     'Indtast region'
   ];
+
+  List<String> values = <String>['', '', '', '', ''];
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +41,9 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
       itemCount: textFields.length,
       itemBuilder: (BuildContext context, int index) {
         return SimpleTextButton(
-          text: textFields[index],
-          onPressed: () => {},
+          text: values[index] != '' ? values[index] : textFields[index],
+          onPressed: () => _navigateAndDisplayInputField(context, index),
+          color: values[index] != '' ? Colors.white : SportsWatchColors.fontColor,
         );
       },
       separatorBuilder: (BuildContext context, int index) =>
@@ -49,43 +51,19 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
     );
   }
 
-  List<Widget> _buildFormElements() {
-    return <Widget>[_nameField(), _formSpace(5.0), _cityField()];
-  }
-
-  Widget _nameField() {
-    return Container(
-      height: 10,
-      child: Text("Tobias"),
-    );
-  }
-
-  Widget _cityField() {
-    return Container(
-      height: 10,
-      child: Text("Tobias"),
-    );
-  }
-
-  Widget _formSpace(double vertical) {
-    return Container(
-      height: 10,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: vertical),
-      ),
-    );
-  }
-
-  void _navigateAndDisplayNameField(BuildContext context) async {
+  void _navigateAndDisplayInputField(BuildContext context, int index) async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TypeClubNameScreen()),
+      MaterialPageRoute(
+        builder: (context) => SingleTextFieldCallbackScreen(
+            title: textFields[index],
+            initialValue: values[index]
+        ),
+      ),
     );
 
-    // After the Selection Screen returns a result, hide any previous snackbars
-    // and show the new result.
-    Scaffold.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text("$result")));
+    setState(() {
+      values[index] = result == null ? "" : result;
+    });
   }
 }
