@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -116,11 +119,19 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(builder: (context) => pageAfterLoginSuccess()), (route) => false);
     }, onError: (error) {
-      setState(() {
-        _waiting = false;
-        _error = error.detail;
-        _loginSuccess = false;
-      });
+      if (error is SocketException) {
+        setState(() {
+          _waiting = false;
+          _loginSuccess = false;
+        });
+        connectionErrorAlert().showAlertDialog(context);
+      } else {
+        setState(() {
+          _waiting = false;
+          _error = error.detail;
+          _loginSuccess = false;
+        });
+      }
     });
   }
 
@@ -152,4 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
       throw 'Could not launch $url';
     }
   }
+
+  AlertMessage connectionErrorAlert() {
+    return AlertMessage(
+        "Kunne ikke oprette forbindelse",
+        "Det var ikke muligt at oprette forbindelse til serveren. Prøv igen senere"
+    );
+  }
+
 }
