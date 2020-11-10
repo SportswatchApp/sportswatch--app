@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 
 class TextInputField extends StatelessWidget {
-  TextInputField({Key key, this.hintText, this.controller, this.keyboardType});
+  TextInputField({Key key, this.hintText, this.controller, this.keyboardType, this.onTap});
 
   final String hintText;
   TextEditingController controller;
   TextInputType keyboardType;
+  GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class TextInputField extends StatelessWidget {
         keyboardType: this.keyboardType,
         controller: this.controller,
         cursorColor: SportsWatchColors.primary,
+        onTap: this.onTap,
         decoration: InputDecoration(
           filled: true,
           fillColor: SportsWatchColors.normalGrey,
