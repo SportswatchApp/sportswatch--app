@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportswatch/widgets/buttons/default.dart';
-import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
-import 'package:sportswatch/widgets/headings/h1.dart';
-import 'package:sportswatch/widgets/input/password.dart';
-import 'package:sportswatch/widgets/input/text.dart';
-import 'package:sportswatch/widgets/scaffold/default.dart';
+import 'package:sportswatch/widgets/layout/app_bar.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class StopwatchScreen extends StatefulWidget {
@@ -18,8 +13,9 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-      selectedIndex: 0,
+    return Scaffold(
+      appBar: CustomAppBar(""),
+      backgroundColor: SportsWatchColors.backgroundColor,
       body: Center(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.start,
@@ -36,7 +32,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 
