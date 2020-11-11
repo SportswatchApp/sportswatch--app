@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/user_model.dart';
+import 'package:sportswatch/screens/profile/tabs/create_club.dart';
 import 'package:sportswatch/screens/profile/tabs/tab.dart';
+import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
 import 'package:sportswatch/widgets/loading/loadingScreen.dart';
@@ -43,7 +45,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else {
       return ListView(
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-        children: [buildProfileInformation()],
+        children: [
+          buildProfileInformation(),
+          Divider(),
+          buildClubInformation()
+        ],
       );
     }
   }
@@ -74,6 +80,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Widget buildClubInformation() {
+    return SimpleTextButton(
+      onPressed: _pushCreateClubScreen,
+      text: "+ Opret ny klub",
+    );
+  }
+
   void loadUserData() {
     setState(() {
       isLoading = true;
@@ -94,5 +107,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _pushTestTabScreen() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TestTabScreen()));
+  }
+
+  void _pushCreateClubScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CreateClubScreen()));
   }
 }
