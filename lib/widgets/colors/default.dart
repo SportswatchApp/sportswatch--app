@@ -5,6 +5,7 @@ class SportsWatchColors {
   static const Color backgroundColor = Color.fromRGBO(40, 40, 40, 1);
   static const Color fontColor = Color.fromRGBO(140, 140, 140, 1);
   static const Color greenColor = Color.fromRGBO(103, 172, 91, 1);
+  static const Color errorColor = Color.fromRGBO(204, 0, 0, 1);
 
   /* 50 shades of grey */
   static const Color appBarColor = Color.fromRGBO(48, 48, 48, 1);

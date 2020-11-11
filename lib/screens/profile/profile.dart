@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget buildClubInformation() {
     return SimpleTextButton(
       onPressed: _pushCreateClubScreen,
-      text: "+ Opret ny club",
+      text: "+ Opret ny klub",
     );
   }
 
