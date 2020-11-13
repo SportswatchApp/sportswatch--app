@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sportswatch/screens/graphs/graphs.dart';
 import 'package:sportswatch/screens/login.dart';
+import 'package:sportswatch/screens/profile/profile.dart';
+import 'package:sportswatch/screens/stopwatch.dart';
 
 void main() {
   runApp(Application());
@@ -18,7 +21,39 @@ class Application extends StatelessWidget {
         accentColor: Colors.black,
         fontFamily: 'Quicksand',
       ),
-      home: LoginScreen()
+      initialRoute: '/',
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(
+              builder: (BuildContext context) => LoginScreen(),
+              settings: settings,
+            );
+          case '/timer':
+            return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => StopwatchScreen(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          case '/graphs':
+            return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => GraphScreen(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          case '/profile':
+            return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => ProfileScreen(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          default:
+            throw new Exception('No such route');
+        }
+      },
     );
   }
 }

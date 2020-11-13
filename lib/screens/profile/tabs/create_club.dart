@@ -7,6 +7,7 @@ import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
+import 'package:sportswatch/widgets/layout/scaffold.dart';
 import 'package:sportswatch/widgets/loading/loadingScreen.dart';
 
 class CreateClubScreen extends StatefulWidget {
@@ -30,10 +31,10 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainScaffold(
       appBar: CustomAppBar("Opret ny klub"),
-      backgroundColor: SportsWatchColors.backgroundColor,
-      body: isLoading ? LoadingScreen() : _buildClubCreationForm()
+      body: isLoading ? LoadingScreen() : _buildClubCreationForm(),
+      selectedIndex: 2,
     );
   }
 

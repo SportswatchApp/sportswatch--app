@@ -6,6 +6,7 @@ import 'package:sportswatch/screens/profile/tabs/tab.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
+import 'package:sportswatch/widgets/layout/scaffold.dart';
 import 'package:sportswatch/widgets/loading/loadingScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -26,7 +27,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainScaffold(
+      selectedIndex: 2,
       appBar: CustomAppBar("Profil"),
       body: RefreshIndicator(
         child: buildProfile(),
@@ -35,7 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return;
         },
       ),
-      backgroundColor: SportsWatchColors.backgroundColor,
     );
   }
 

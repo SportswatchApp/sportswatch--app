@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/screens/stopwatch.dart';
 import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
@@ -105,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   StatefulWidget pageAfterLoginSuccess() {
-    return MainScaffoldController();
+    return StopwatchScreen();
   }
 
   void _login() {
@@ -115,9 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _error = "";
         _loginSuccess = true;
       });
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => pageAfterLoginSuccess()), (route) => false);
+      Navigator.of(context).pushReplacementNamed('/timer');
     }, onError: (error) {
       if (error is SocketException) {
         setState(() {

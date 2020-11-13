@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
+import 'package:sportswatch/widgets/layout/scaffold.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class StopwatchScreen extends StatefulWidget {
@@ -13,9 +14,9 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainScaffold(
+      selectedIndex: 0,
       appBar: CustomAppBar(""),
-      backgroundColor: SportsWatchColors.backgroundColor,
       body: Center(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.start,
