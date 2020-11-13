@@ -10,6 +10,7 @@ class Api {
   static const String domain = "http://127.0.0.1:8000";
 
   factory Api([String baseUrl = Api.domain, String token = "token"]) {
+    // TODO: Remove this before launch
     print('Running backend on: ' + domain);
     final SecureStorage storage = SecureStorage();
     _i.user = UserApi(

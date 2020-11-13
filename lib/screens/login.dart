@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/screens/member_selection.dart';
 import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
@@ -9,7 +10,7 @@ import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/input/password.dart';
 import 'package:sportswatch/widgets/input/text.dart';
 import 'package:sportswatch/widgets/loading/default.dart';
-import 'package:sportswatch/widgets/layout/default.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -105,7 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   StatefulWidget pageAfterLoginSuccess() {
-    return MainScaffoldController();
+    //return MainScaffoldController();
+    return MemberSelectionScreen();
   }
 
   void _login() {

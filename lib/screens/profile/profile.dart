@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/user_model.dart';
 import 'package:sportswatch/screens/profile/tabs/create_club.dart';
+import 'package:sportswatch/screens/profile/tabs/profile_settings.dart';
 import 'package:sportswatch/screens/profile/tabs/tab.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -27,7 +28,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar("Profil"),
+      appBar: CustomAppBar(
+          "Profil",
+        second: IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () => _pushSettingsTab(),
+        ),
+      ),
       body: RefreshIndicator(
         child: buildProfile(),
         onRefresh: () async {
@@ -112,5 +119,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _pushCreateClubScreen() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateClubScreen()));
+  }
+  
+  void _pushSettingsTab() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen()));
   }
 }
