@@ -127,11 +127,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         member = currentMember(user);
         isLoading = false;
       });
-    }, onError: (_error) {
-      setState(() {
-        error = _error.detail;
-        isLoading = false;
-      });
     });
   }
 

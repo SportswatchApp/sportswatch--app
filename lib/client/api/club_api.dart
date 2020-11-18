@@ -12,4 +12,15 @@ class ClubApi {
         .post('/club/', clubModel.toJson())
         .map((Response response) => ClubModel.fromJson(response.json));
   }
+
+  Stream<List<ClubModel>> list() {
+    return client.get('/clubs/').map((Response response) {
+      List<ClubModel> clubs = [];
+      for (Map<String, dynamic> club in response.json['clubs']) {
+        clubs.add(ClubModel.fromJson(club));
+      }
+      return clubs;
+    });
+  }
+
 }

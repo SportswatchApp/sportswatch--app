@@ -24,8 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _waiting = false;
   bool _loginSuccess = false;
   String _error = "";
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(text: "peter@sorensen.com");
+  final TextEditingController passwordController = TextEditingController(text: "qwerty");
   Api _api = Api();
 
   @override
