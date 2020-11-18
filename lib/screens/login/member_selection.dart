@@ -9,6 +9,8 @@ import 'package:sportswatch/widgets/loading/loadingScreen.dart';
 import 'package:sportswatch/widgets/layout/default.dart';
 import 'package:sportswatch/globals.dart' as globals;
 
+import 'member_setup.dart';
+
 class MemberSelectionScreen extends StatefulWidget {
   MemberSelectionScreen({Key key}) : super(key: key);
 
@@ -77,7 +79,7 @@ class _MemberSelectionScreenState extends State<MemberSelectionScreen> {
     });
     _api.user.get().listen((UserModel userModel) {
       if (userModel.members.length == 0) {
-        _toGoToFrontPage();
+        _goToSetupPage();
       } else if (userModel.members.length == 1) {
         _setGlobalMemberAndGoToFrontPage(context, userModel.members.first);
       } else {
@@ -105,5 +107,12 @@ class _MemberSelectionScreenState extends State<MemberSelectionScreen> {
         context,
         MaterialPageRoute(builder: (context) => MainScaffoldController()),
         (route) => false);
+  }
+
+  void _goToSetupPage() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MemberSetupPage()),
+            (route) => false);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportswatch/screens/login.dart';
+import 'package:sportswatch/screens/login/login.dart';
 
 void main() {
   runApp(Application());

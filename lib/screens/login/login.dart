@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
-import 'package:sportswatch/screens/member_selection.dart';
+import 'package:sportswatch/screens/login/member_selection.dart';
 import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';

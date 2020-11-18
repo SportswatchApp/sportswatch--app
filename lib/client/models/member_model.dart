@@ -32,4 +32,12 @@ class MemberModel {
         user: UserModel(id: json['user']['id']));
   }
 
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': this.id,
+      'club': this.club.toJson(),
+      'date_joined': this.dateJoined.toString(),
+    };
+  }
+
 }

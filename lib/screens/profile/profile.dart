@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/client/models/member_model.dart';
 import 'package:sportswatch/client/models/user_model.dart';
+import 'package:sportswatch/globals.dart';
 import 'package:sportswatch/screens/profile/tabs/create_club.dart';
 import 'package:sportswatch/screens/profile/tabs/profile_settings.dart';
 import 'package:sportswatch/screens/profile/tabs/tab.dart';
@@ -16,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   Api _api = Api();
   UserModel user;
+  MemberModel member;
   String error;
   bool isLoading = true;
 
@@ -29,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          "Profil",
+        "Profil",
         second: IconButton(
           icon: Icon(Icons.settings),
           onPressed: () => _pushSettingsTab(),
@@ -88,10 +91,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildClubInformation() {
-    return SimpleTextButton(
-      onPressed: _pushCreateClubScreen,
-      text: "+ Opret ny klub",
+    return Container(
+      child: Card(
+        child: InkWell(
+          splashColor: SportsWatchColors.primary,
+          onTap: () => {},
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 5.00, horizontal: 20),
+                  leading: Icon(Icons.emoji_events, size: 35),
+                  title: Text(member.club.name),
+                  subtitle: Text(member.club.name)),
+              SimpleTextButton(
+                onPressed: _pushCreateClubScreen,
+                text: "+ Opret ny klub",
+              )
+            ],
+          ),
+        ),
+      ),
     );
+    /*return ;*/
   }
 
   void loadUserData() {
@@ -101,6 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _api.user.get().listen((UserModel userModel) {
       setState(() {
         user = userModel;
+        member = currentMember(user);
         isLoading = false;
       });
     }, onError: (_error) {
@@ -120,9 +144,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateClubScreen()));
   }
-  
+
   void _pushSettingsTab() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProfileSettingsScreen(member)));
   }
 }
