@@ -14,6 +14,7 @@ class UsersApi {
   HttpClient client;
 
   Stream<bool> login(String email, String password) {
+    client.storage.delete("token");
     return client.post('/login/', <String, String>{
       'email': email,
       'password': password

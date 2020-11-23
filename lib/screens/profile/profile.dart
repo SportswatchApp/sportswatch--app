@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/client/models/member_model.dart';
 import 'package:sportswatch/client/models/user_model.dart';
+import 'package:sportswatch/globals.dart';
 import 'package:sportswatch/screens/profile/tabs/create_club.dart';
+import 'package:sportswatch/screens/profile/tabs/profile_settings.dart';
 import 'package:sportswatch/screens/profile/tabs/tab.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -15,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   Api _api = Api();
   UserModel user;
+  MemberModel member;
   String error;
   bool isLoading = true;
 
@@ -27,7 +31,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar("Profil"),
+      appBar: CustomAppBar(
+        "Profil",
+        second: IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () => _pushSettingsTab(),
+        ),
+      ),
       body: RefreshIndicator(
         child: buildProfile(),
         onRefresh: () async {
@@ -48,7 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           buildProfileInformation(),
           Divider(),
-          buildClubInformation()
+          buildClubInformation(),
+          SimpleTextButton(
+            onPressed: _pushCreateClubScreen,
+            text: "+ Opret ny klub",
+          ),
         ],
       );
     }
@@ -81,10 +95,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildClubInformation() {
-    return SimpleTextButton(
-      onPressed: _pushCreateClubScreen,
-      text: "+ Opret ny klub",
+    return Container(
+      child: Card(
+        child: InkWell(
+          splashColor: SportsWatchColors.primary,
+          onTap: () => {},
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 5.00, horizontal: 20),
+                  leading: Icon(Icons.emoji_events, size: 35),
+                  title: Text(member.club.name),
+                  subtitle: Text(member.club.name)),
+            ],
+          ),
+        ),
+      ),
     );
+    /*return ;*/
   }
 
   void loadUserData() {
@@ -94,11 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _api.user.get().listen((UserModel userModel) {
       setState(() {
         user = userModel;
-        isLoading = false;
-      });
-    }, onError: (_error) {
-      setState(() {
-        error = _error.detail;
+        member = currentMember(user);
         isLoading = false;
       });
     });
@@ -112,5 +138,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _pushCreateClubScreen() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateClubScreen()));
+  }
+
+  void _pushSettingsTab() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProfileSettingsScreen(member)));
   }
 }
