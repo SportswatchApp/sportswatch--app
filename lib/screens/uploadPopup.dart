@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'dart:io';
 import 'package:sportswatch/screens/stopwatch.dart';
+import 'package:sportswatch/widgets/buttons/default.dart';
+import 'package:sportswatch/widgets/colors/default.dart';
+import 'package:path/path.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
-Widget uploadPopup(int time) {
+Widget uploadPopup(int time, BuildContext context) {
   String _traniee = "";
 
   return AlertDialog(
@@ -13,14 +17,29 @@ Widget uploadPopup(int time) {
         uploadPopup_stopwatchTime(time),
         uploadPopup_traineeDropdown(),
         uploadPopup_categoryDropdown(),
-        uploadPopup_date()
+        uploadPopup_date(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            AddButton(
+              text: "Cancel",
+              backgroundColor: SportsWatchColors.primary,
+              onPressed: () => {Navigator.pop(context)},
+            ),
+            AddButton(
+              text: "Upload",
+              backgroundColor: SportsWatchColors.greenColor,
+              onPressed: () => {},
+            )
+          ],
+        )
       ],
     ),
   );
 }
 
 Widget uploadPopup_stopwatchTime(int time) {
-  return Text(time.toString());
+  return Text(StopWatchTimer.getDisplayTime(time, hours: false, minute: false));
 }
 
 Widget uploadPopup_traineeDropdown() {
@@ -29,7 +48,7 @@ Widget uploadPopup_traineeDropdown() {
 
 Widget uploadPopup_categoryDropdown() {
   List<DropdownMenuItem> items = [];
-  List<String> names = ["tobias dybdahl", "marcus egge", "some dude"];
+  List<String> names = ["10 høje", "obl", "fri"];
   var value;
   names.forEach(
     (element) {

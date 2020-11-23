@@ -48,14 +48,15 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         initialData: _stopWatchTimer.rawTime.value,
         builder: (context, snap) {
           final stopwatchValue = snap.data;
-          final displayTime = StopWatchTimer.getDisplayTime(stopwatchValue,
+          final _displayTime = StopWatchTimer.getDisplayTime(stopwatchValue,
               hours: false, minute: false);
+
           return Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  displayTime,
+                  _displayTime,
                   style: const TextStyle(fontSize: 80),
                 ),
               )
@@ -82,6 +83,8 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
             _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
             setState(() {
               _startOrStop = "Start";
+              _stopWatchTimer.rawTime
+                  .listen((value) => _currentStopWatchTime = value);
             });
           } else {
             _stopWatchTimer.onExecute.add(StopWatchExecute.start);
@@ -124,7 +127,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return uploadPopup(1);
+        return uploadPopup(_currentStopWatchTime, context);
       },
     );
   }
