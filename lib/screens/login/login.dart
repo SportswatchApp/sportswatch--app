@@ -1,13 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sportswatch/client/api/api.dart';
-import 'package:sportswatch/screens/stopwatch.dart';
+import 'package:sportswatch/screens/login/member_selection.dart';
+import 'package:sportswatch/widgets/alerts/default.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/input/password.dart';
 import 'package:sportswatch/widgets/input/text.dart';
 import 'package:sportswatch/widgets/loading/default.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,12 +21,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final storage = new FlutterSecureStorage();
   bool _waiting = false;
   bool _loginSuccess = false;
   String _error = "";
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(text: "peter@sorensen.com");
+  final TextEditingController passwordController = TextEditingController(text: "qwerty");
+  Api _api = Api();
 
   @override
   Widget build(BuildContext context) {
@@ -80,24 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: FutureBuilder(
-              future: _getToken(),
-              initialData: 'Token: ',
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text("token: ${snapshot.data}");
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: SportsWatchColors.primary,
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-          Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
@@ -121,16 +106,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   StatefulWidget pageAfterLoginSuccess() {
-    return StopwatchScreen();
-  }
-
-  Future<String> _getToken() async {
-    return await storage.read(key: "token");
+    //return MainScaffoldController();
+    return MemberSelectionScreen();
   }
 
   void _login() {
-    api.user.login(storage, emailController.text, passwordController.text).then(
-        (loggedIn) {
+    _api.users.login(emailController.text, passwordController.text).listen((event) {
       setState(() {
         _waiting = false;
         _error = "";
@@ -140,11 +121,19 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(builder: (context) => pageAfterLoginSuccess()), (route) => false);
     }, onError: (error) {
-      setState(() {
-        _waiting = false;
-        _error = error.toString();
-        _loginSuccess = false;
-      });
+      if (error is SocketException) {
+        setState(() {
+          _waiting = false;
+          _loginSuccess = false;
+        });
+        connectionErrorAlert().showAlertDialog(context);
+      } else {
+        setState(() {
+          _waiting = false;
+          _error = error.detail;
+          _loginSuccess = false;
+        });
+      }
     });
   }
 
@@ -176,4 +165,12 @@ class _LoginScreenState extends State<LoginScreen> {
       throw 'Could not launch $url';
     }
   }
+
+  AlertMessage connectionErrorAlert() {
+    return AlertMessage(
+        "Kunne ikke oprette forbindelse",
+        "Det var ikke muligt at oprette forbindelse til serveren. Prøv igen senere"
+    );
+  }
+
 }
