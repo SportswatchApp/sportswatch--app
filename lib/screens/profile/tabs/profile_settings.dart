@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/models/member_model.dart';
+import 'package:sportswatch/screens/login/login.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
 
@@ -12,7 +13,6 @@ class ProfileSettingsScreen extends StatefulWidget {
 }
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar("Indstillinger"),
@@ -22,7 +22,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         child: ListView(
           children: [
             _buildLabel("Indstillinger"),
-            _buildSimpleTile("Skift klub", widget.member.club.name, Icon(Icons.cached), () => {}),
+            _buildSimpleTile("Skift klub", widget.member.club.name,
+                Icon(Icons.cached), () => {}),
             _buildLabel("Log ud"),
             ListTile(
               title: Text("Logud"),
@@ -71,6 +72,4 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       onTap: onTab,
     );
   }
-
-
 }

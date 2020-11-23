@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/http/http.dart';
 import 'package:sportswatch/client/models/club_model.dart';
+import 'package:sportswatch/client/models/member_model.dart';
 
 class ClubApi {
   ClubApi(this.client, {Key key});
@@ -23,4 +24,9 @@ class ClubApi {
     });
   }
 
+  Stream<MemberModel> apply(int clubId) {
+    return client
+        .post('/club/' + clubId.toString() + '/apply/')
+        .map((Response response) => MemberModel.fromJson(response.json));
+  }
 }

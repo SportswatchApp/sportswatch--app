@@ -58,7 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           buildProfileInformation(),
           Divider(),
-          buildClubInformation()
+          buildClubInformation(),
+          SimpleTextButton(
+            onPressed: _pushCreateClubScreen,
+            text: "+ Opret ny klub",
+          ),
         ],
       );
     }
@@ -105,10 +109,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: Icon(Icons.emoji_events, size: 35),
                   title: Text(member.club.name),
                   subtitle: Text(member.club.name)),
-              SimpleTextButton(
-                onPressed: _pushCreateClubScreen,
-                text: "+ Opret ny klub",
-              )
             ],
           ),
         ),

@@ -8,6 +8,7 @@ class Api {
 
   static final Api _i = Api._internal();
   static const String domain = "http://127.0.0.1:8000";
+  //static const String domain = "https://test.sportswatchapp.dk/";
 
   factory Api([String baseUrl = Api.domain, String token = "token"]) {
     // TODO: Remove this before launch
