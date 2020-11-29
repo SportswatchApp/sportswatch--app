@@ -14,6 +14,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   String _startOrStop = "Start";
   int _currentStopWatchTime = 0;
+  var _tranieeTest, _categoryTest;
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +22,22 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         appBar: CustomAppBar(""),
         backgroundColor: SportsWatchColors.backgroundColor,
         body: Center(
-        child: Column(
-        //mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          _stopwatch(context),
-          _startStop(),
-          Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _uploadTime(),
-              _resetTime(),
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              _stopwatch(context),
+              _startStop(),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _uploadTime(),
+                  _resetTime(),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget _stopwatch(BuildContext context) {
@@ -122,11 +123,23 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     );
   }
 
+  void passSetStateTrainee(value) {
+    setState(() {
+      _tranieeTest = value;
+    });
+  }
+
+  void passSetStateCategory(value) {
+    setState(() {
+      _categoryTest = value;
+    });
+  }
+
   void uploadBtnFunction() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return uploadPopup(_currentStopWatchTime, context);
+        return uploadDialog(_currentStopWatchTime);
       },
     );
   }
