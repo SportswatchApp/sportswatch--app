@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sportswatch/client/models/category_model.dart';
 import 'package:sportswatch/client/models/member_model.dart';
-import 'package:sportswatch/screens/uploadPopup.dart';
+import 'package:sportswatch/screens/UploadPopup/popupResponseMessage.dart';
+import 'package:sportswatch/screens/UploadPopup/uploadPopup.dart';
+import 'package:sportswatch/widgets/alerts/snack_bar.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -104,12 +106,16 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
       padding: EdgeInsets.all(2),
       child: RaisedButton(
         color: SportsWatchColors.primary,
-        child: Text('reset'),
+        child: Text('Reset'),
         onPressed: () async {
-          _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+          resetTime();
         },
       ),
     );
+  }
+
+  void resetTime() {
+    _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
   }
 
   Widget _uploadTime() {
@@ -137,12 +143,24 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     });
   }
 
-  void uploadBtnFunction() {
-    showDialog(
+  void uploadBtnFunction() async {
+    //String statusMessage = "";
+    //statusMessage =
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return UploadDialog(_currentStopWatchTime);
       },
-    );
+    ).then((value) {
+      if (value != null) {
+        PopupReturnMessage returnMessage = value;
+
+        if (returnMessage.success) {
+          showSnackBarSuccess(context, returnMessage.message);
+        } else {
+          showSnackBarError(context, returnMessage.message);
+        }
+      }
+    });
   }
 }
