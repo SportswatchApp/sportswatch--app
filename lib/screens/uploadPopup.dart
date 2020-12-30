@@ -3,7 +3,9 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/category_model.dart';
 import 'package:sportswatch/client/models/member_model.dart';
+import 'package:sportswatch/client/models/time_model.dart';
 import 'package:sportswatch/client/models/trainee_model.dart';
+import 'package:sportswatch/client/models/user_model.dart';
 import 'dart:io';
 import 'package:sportswatch/screens/stopwatch.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
@@ -23,18 +25,17 @@ class UploadDialog extends StatefulWidget {
 
 class _UploadDialogState extends State<UploadDialog> {
   _UploadDialogState(int time) {
-    this.time = time;
+    this._time = time;
   }
 
   final Api _api = Api();
+  TimeModel _timeObject;
   List<TraineeModel> traniees = [];
   List<CategoryModel> categories;
-  int time = 0;
-  String _traniee = "hej", _category = " med dig";
-  List<String> calltest = [""];
+  int _time = 0;
+  TraineeModel _trainee;
+  CategoryModel _category = CategoryModel(id: 1);
   DateTime _selectedDate = DateTime.now();
-  List<String> dummyNames = ["tobias", "Marcus", "Peter"];
-  List<String> dummyCategories = ["10 høje", "obl", "fri"];
 
   @override
   void initState() {
@@ -48,7 +49,7 @@ class _UploadDialogState extends State<UploadDialog> {
       content: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          uploadPopup_stopwatchTime(time),
+          uploadPopup_stopwatchTime(_time),
           uploadPopup_Dropdown(traniees, "Select traniee", 1),
           //uploadPopup_Dropdown(dummyCategories, "Select category", 2),
           uploadPopup_date(),
@@ -64,13 +65,9 @@ class _UploadDialogState extends State<UploadDialog> {
                 text: "Upload",
                 backgroundColor: SportsWatchColors.greenColor,
                 onPressed: () => {
-                  print(time.toString() +
-                      " " +
-                      _traniee +
-                      " " +
-                      _category +
-                      " " +
-                      _selectedDate.toString().split(" ")[0])
+                  makeTimeObject(),
+                  uploadTime(_timeObject),
+                  Navigator.pop(context)
                 },
               )
             ],
@@ -88,13 +85,13 @@ class _UploadDialogState extends State<UploadDialog> {
   Widget uploadPopup_Dropdown(
       List<TraineeModel> itemsList, String hint, int type) {
     List<DropdownMenuItem> items = [];
-    var value;
+    TraineeModel value;
     itemsList.forEach(
       (trainee) {
         items.add(
           DropdownMenuItem(
             child: Text(trainee.getFullName()),
-            value: trainee.id,
+            value: trainee,
           ),
         );
       },
@@ -107,11 +104,7 @@ class _UploadDialogState extends State<UploadDialog> {
         value: value,
         onChanged: (value) {
           setState(() {
-            if (type == 1) {
-              _traniee = value;
-            } else if (type == 2) {
-              _category = value;
-            }
+            _trainee = value;
           });
         },
       ),
@@ -124,8 +117,6 @@ class _UploadDialogState extends State<UploadDialog> {
       text: _selectedDate.toLocal().toString().split(' ')[0],
       color: Colors.white,
     );
-
-    //return Text(date.toLocal().toString().split(' ')[0]);
   }
 
   Future<Null> dateSelector(BuildContext context) async {
@@ -144,9 +135,28 @@ class _UploadDialogState extends State<UploadDialog> {
 
   void loadClubData() {
     _api.trainee.getTranieeList().listen((List<TraineeModel> result) {
+      print("hello");
       setState(() {
         traniees = result;
       });
+    });
+  }
+
+  void uploadTime(TimeModel timeObject) {
+    _api.time.create(timeObject).listen((TimeModel timeModel) {
+      print(timeModel.toJson());
+    }, onError: (_error) {
+      print(_error.toString());
+    });
+  }
+
+  void makeTimeObject() {
+    setState(() {
+      _timeObject = TimeModel(
+          time: _time,
+          trainee: _trainee,
+          category: _category,
+          createdDate: _selectedDate);
     });
   }
 }

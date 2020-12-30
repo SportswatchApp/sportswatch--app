@@ -8,8 +8,11 @@ class TraineeModel {
   TraineeModel({this.id, this.fullName, this.member});
 
   factory TraineeModel.fromJson(Map<String, dynamic> json) {
-    return TraineeModel(
-        id: json['id'], member: MemberModel.fromJson(json['member']));
+    MemberModel memberJson;
+    if (json.containsKey('member')) {
+      memberJson = MemberModel.fromJson(json['member']);
+    }
+    return TraineeModel(id: json['id'], member: memberJson);
   }
 
   String getFullName() {

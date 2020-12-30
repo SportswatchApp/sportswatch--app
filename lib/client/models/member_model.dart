@@ -23,13 +23,14 @@ class MemberModel {
 
   factory MemberModel.fromJson(Map<String, dynamic> json) {
     return MemberModel(
-        id: json['id'],
-        club: ClubModel.fromJson(json['club']),
-        dateJoined: DateTime.parse(json['date_joined']),
-        isTrainee: json['is_trainee'],
-        isAdmin: json['isAdmin'],
-        isCoach: json['isCoach'],
-        user: UserModel(id: json['user']['id']));
+      id: json['id'],
+      club: ClubModel.fromJson(json['club']),
+      dateJoined: DateTime.parse(json['date_joined']),
+      isTrainee: json['is_trainee'],
+      isAdmin: json['isAdmin'],
+      isCoach: json['isCoach'],
+      user: UserModel.fromJson(json['user']),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -39,5 +40,4 @@ class MemberModel {
       'date_joined': this.dateJoined.toString(),
     };
   }
-
 }

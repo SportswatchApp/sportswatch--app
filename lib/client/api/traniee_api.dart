@@ -11,7 +11,7 @@ class TranieeApi {
   TranieeApi(this.client, {Key key});
 
   Stream<List<TraineeModel>> getTranieeList() {
-    return client.get("traniees/").map((Response response) {
+    return client.get("trainees/").map((Response response) {
       List<TraineeModel> traineeList = [];
       for (Map<String, dynamic> trainee in response.json["trainees"]) {
         traineeList.add(TraineeModel.fromJson(trainee));
