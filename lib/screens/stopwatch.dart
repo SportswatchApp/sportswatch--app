@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sportswatch/client/models/category_model.dart';
+import 'package:sportswatch/client/models/member_model.dart';
 import 'package:sportswatch/screens/uploadPopup.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';

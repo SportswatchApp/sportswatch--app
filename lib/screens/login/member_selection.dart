@@ -99,6 +99,7 @@ class _MemberSelectionScreenState extends State<MemberSelectionScreen> {
   void _setGlobalMemberAndGoToFrontPage(
       BuildContext context, MemberModel member) {
     globals.memberId = member.id;
+    globals.clubId = member.club.id;
     _toGoToFrontPage();
   }
 
@@ -113,6 +114,6 @@ class _MemberSelectionScreenState extends State<MemberSelectionScreen> {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => MemberSetupPage()),
-            (route) => false);
+        (route) => false);
   }
 }

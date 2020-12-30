@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:sportswatch/client/api/api.dart';
+import 'package:sportswatch/client/models/category_model.dart';
+import 'package:sportswatch/client/models/member_model.dart';
+import 'package:sportswatch/client/models/trainee_model.dart';
 import 'dart:io';
 import 'package:sportswatch/screens/stopwatch.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
@@ -7,11 +11,10 @@ import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:path/path.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:sportswatch/globals.dart' as globals;
 
 class UploadDialog extends StatefulWidget {
-  UploadDialog(int time) {
-    this.time = time;
-  }
+  UploadDialog(this.time);
 
   int time;
   @override
@@ -23,6 +26,9 @@ class _UploadDialogState extends State<UploadDialog> {
     this.time = time;
   }
 
+  final Api _api = Api();
+  List<TraineeModel> traniees = [];
+  List<CategoryModel> categories;
   int time = 0;
   String _traniee = "hej", _category = " med dig";
   List<String> calltest = [""];
@@ -31,14 +37,20 @@ class _UploadDialogState extends State<UploadDialog> {
   List<String> dummyCategories = ["10 høje", "obl", "fri"];
 
   @override
+  void initState() {
+    super.initState();
+    loadClubData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           uploadPopup_stopwatchTime(time),
-          uploadPopup_Dropdown(dummyNames, "Select traniee", 1),
-          uploadPopup_Dropdown(dummyCategories, "Select category", 2),
+          uploadPopup_Dropdown(traniees, "Select traniee", 1),
+          //uploadPopup_Dropdown(dummyCategories, "Select category", 2),
           uploadPopup_date(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -73,15 +85,16 @@ class _UploadDialogState extends State<UploadDialog> {
         StopWatchTimer.getDisplayTime(time, hours: false, minute: false));
   }
 
-  Widget uploadPopup_Dropdown(List<String> itemsList, String hint, int type) {
+  Widget uploadPopup_Dropdown(
+      List<TraineeModel> itemsList, String hint, int type) {
     List<DropdownMenuItem> items = [];
     var value;
     itemsList.forEach(
-      (element) {
+      (trainee) {
         items.add(
           DropdownMenuItem(
-            child: Text(element),
-            value: element,
+            child: Text(trainee.getFullName()),
+            value: trainee.id,
           ),
         );
       },
@@ -127,5 +140,13 @@ class _UploadDialogState extends State<UploadDialog> {
         _selectedDate = picked;
       });
     }
+  }
+
+  void loadClubData() {
+    _api.trainee.getTranieeList().listen((List<TraineeModel> result) {
+      setState(() {
+        traniees = result;
+      });
+    });
   }
 }

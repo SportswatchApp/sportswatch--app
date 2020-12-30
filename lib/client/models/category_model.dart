@@ -1,21 +1,17 @@
 import 'package:sportswatch/client/models/club_model.dart';
 
-class Category {
+class CategoryModel {
   int id;
   String name;
   ClubModel club;
 
-  Category({this.id, this.name, this.club});
+  CategoryModel({this.id, this.name, this.club});
 
-  factory Category.fromJson(Map<String, dynamic> json) {
-    Category category = Category(
-      id: json['id'],
-      name: json['name']
-    );
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    CategoryModel category = CategoryModel(id: json['id'], name: json['name']);
     if (json.containsKey("club")) {
       category.club = ClubModel.fromJson(json["club"]);
     }
     return category;
   }
-
 }
