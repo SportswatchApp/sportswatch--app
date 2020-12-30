@@ -8,18 +8,18 @@ import 'package:sportswatch/widgets/colors/default.dart';
 import 'package:path/path.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
-class uploadDialog extends StatefulWidget {
-  uploadDialog(int time) {
+class UploadDialog extends StatefulWidget {
+  UploadDialog(int time) {
     this.time = time;
   }
 
   int time;
   @override
-  State<StatefulWidget> createState() => _uploadDialogState(time);
+  State<StatefulWidget> createState() => _UploadDialogState(time);
 }
 
-class _uploadDialogState extends State<uploadDialog> {
-  _uploadDialogState(int time) {
+class _UploadDialogState extends State<UploadDialog> {
+  _UploadDialogState(int time) {
     this.time = time;
   }
 

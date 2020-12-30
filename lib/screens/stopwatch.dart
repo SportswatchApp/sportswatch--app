@@ -139,7 +139,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return uploadDialog(_currentStopWatchTime);
+        return UploadDialog(_currentStopWatchTime);
       },
     );
   }
