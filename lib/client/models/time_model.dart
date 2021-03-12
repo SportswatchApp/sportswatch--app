@@ -2,7 +2,7 @@ import 'package:sportswatch/client/models/category_model.dart';
 import 'package:sportswatch/client/models/trainee_model.dart';
 import 'package:sportswatch/client/models/user_model.dart';
 
-class Time {
+class TimeModel {
   int id;
   CategoryModel category;
   TraineeModel trainee;
@@ -10,7 +10,7 @@ class Time {
   UserModel reportedBy;
   DateTime createdDate;
 
-  Time(
+  TimeModel(
       {this.id,
       this.category,
       this.time,
@@ -18,8 +18,8 @@ class Time {
       this.createdDate,
       this.trainee});
 
-  factory Time.fromJson(Map<String, dynamic> json) {
-    return Time(
+  factory TimeModel.fromJson(Map<String, dynamic> json) {
+    return TimeModel(
         id: json['id'],
         category: CategoryModel.fromJson(json['category']),
         trainee: TraineeModel.fromJson(json['trainee']),

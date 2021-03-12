@@ -7,9 +7,9 @@ class TimeApi {
 
   HttpClient client;
 
-  Stream<Time> create(Time time) {
+  Stream<TimeModel> create(TimeModel time) {
     return client
         .post('/', time.toJson())
-        .map((Response response) => Time.fromJson(response.json));
+        .map((Response response) => TimeModel.fromJson(response.json));
   }
 }

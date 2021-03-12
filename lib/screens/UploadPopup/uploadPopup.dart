@@ -3,9 +3,12 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/category_model.dart';
 import 'package:sportswatch/client/models/member_model.dart';
+import 'package:sportswatch/client/models/time_model.dart';
 import 'package:sportswatch/client/models/trainee_model.dart';
+import 'package:sportswatch/client/models/user_model.dart';
 import 'dart:io';
-import 'package:sportswatch/screens/stopwatch.dart';
+import 'package:sportswatch/screens/Stopwatch/stopwatch.dart';
+import 'package:sportswatch/screens/UploadPopup/popupResponseMessage.dart';
 import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/buttons/text_button.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
@@ -23,18 +26,18 @@ class UploadDialog extends StatefulWidget {
 
 class _UploadDialogState extends State<UploadDialog> {
   _UploadDialogState(int time) {
-    this.time = time;
+    this._time = time;
   }
 
   final Api _api = Api();
+  PopupReturnMessage returnMessage = PopupReturnMessage();
+  TimeModel _timeObject;
   List<TraineeModel> traniees = [];
-  List<CategoryModel> categories;
-  int time = 0;
-  String _traniee = "hej", _category = " med dig";
-  List<String> calltest = [""];
+  List<CategoryModel> categories = [];
+  int _time = 0;
+  TraineeModel _trainee;
+  CategoryModel _category = CategoryModel(id: 1);
   DateTime _selectedDate = DateTime.now();
-  List<String> dummyNames = ["tobias", "Marcus", "Peter"];
-  List<String> dummyCategories = ["10 høje", "obl", "fri"];
 
   @override
   void initState() {
@@ -48,9 +51,9 @@ class _UploadDialogState extends State<UploadDialog> {
       content: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          uploadPopup_stopwatchTime(time),
-          uploadPopup_Dropdown(traniees, "Select traniee", 1),
-          //uploadPopup_Dropdown(dummyCategories, "Select category", 2),
+          uploadPopup_stopwatchTime(_time),
+          uploadPopup_Dropdown_trainee(traniees),
+          uploadPopup_Dropdown_category(categories),
           uploadPopup_date(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -58,19 +61,19 @@ class _UploadDialogState extends State<UploadDialog> {
               AddButton(
                 text: "Cancel",
                 backgroundColor: SportsWatchColors.primary,
-                onPressed: () => {Navigator.pop(context)},
+                onPressed: () => {
+                  returnMessage.success = false,
+                  returnMessage.message = "You pressed cancel",
+                  Navigator.pop(context, returnMessage)
+                },
               ),
               AddButton(
                 text: "Upload",
                 backgroundColor: SportsWatchColors.greenColor,
                 onPressed: () => {
-                  print(time.toString() +
-                      " " +
-                      _traniee +
-                      " " +
-                      _category +
-                      " " +
-                      _selectedDate.toString().split(" ")[0])
+                  makeTimeObject(),
+                  uploadTime(_timeObject),
+                  Navigator.pop(context, returnMessage)
                 },
               )
             ],
@@ -85,16 +88,15 @@ class _UploadDialogState extends State<UploadDialog> {
         StopWatchTimer.getDisplayTime(time, hours: false, minute: false));
   }
 
-  Widget uploadPopup_Dropdown(
-      List<TraineeModel> itemsList, String hint, int type) {
+  Widget uploadPopup_Dropdown_trainee(List<TraineeModel> itemsList) {
     List<DropdownMenuItem> items = [];
-    var value;
+    TraineeModel value;
     itemsList.forEach(
       (trainee) {
         items.add(
           DropdownMenuItem(
             child: Text(trainee.getFullName()),
-            value: trainee.id,
+            value: trainee,
           ),
         );
       },
@@ -103,15 +105,40 @@ class _UploadDialogState extends State<UploadDialog> {
     return Container(
       child: SearchableDropdown(
         items: items,
-        hint: hint,
+        hint: "Select trainee",
+        value: value,
+        onChanged: (value) {
+          loadTraineesCategories(value);
+          setState(() {
+            _trainee = value;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget uploadPopup_Dropdown_category(List<CategoryModel> itemsList) {
+    List<DropdownMenuItem> items = [];
+    CategoryModel value;
+    itemsList.forEach(
+      (category) {
+        items.add(
+          DropdownMenuItem(
+            child: Text(category.name),
+            value: category,
+          ),
+        );
+      },
+    );
+
+    return Container(
+      child: SearchableDropdown(
+        items: items,
+        hint: "Select category",
         value: value,
         onChanged: (value) {
           setState(() {
-            if (type == 1) {
-              _traniee = value;
-            } else if (type == 2) {
-              _category = value;
-            }
+            _category = value;
           });
         },
       ),
@@ -124,8 +151,6 @@ class _UploadDialogState extends State<UploadDialog> {
       text: _selectedDate.toLocal().toString().split(' ')[0],
       color: Colors.white,
     );
-
-    //return Text(date.toLocal().toString().split(' ')[0]);
   }
 
   Future<Null> dateSelector(BuildContext context) async {
@@ -147,6 +172,37 @@ class _UploadDialogState extends State<UploadDialog> {
       setState(() {
         traniees = result;
       });
+    });
+  }
+
+  void uploadTime(TimeModel timeObject) {
+    _api.time.create(timeObject).listen((TimeModel timeModel) {
+      returnMessage.success = true;
+      returnMessage.message = "Upload successfull";
+      print(timeModel.toJson());
+    }, onError: (_error) {
+      print(_error.toString());
+    });
+  }
+
+  void makeTimeObject() {
+    setState(() {
+      _timeObject = TimeModel(
+          time: _time,
+          trainee: _trainee,
+          category: _category,
+          createdDate: _selectedDate);
+    });
+  }
+
+  void loadTraineesCategories(TraineeModel trainee) {
+    List<CategoryModel> someResult = [];
+    someResult.add(CategoryModel(id: 1, name: "10 høje"));
+    someResult.add(CategoryModel(id: 2, name: "Obel"));
+    someResult.add(CategoryModel(id: 3, name: "Fri"));
+
+    setState(() {
+      categories = someResult;
     });
   }
 }
