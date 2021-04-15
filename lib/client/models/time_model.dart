@@ -5,26 +5,26 @@ import 'package:sportswatch/client/models/user_model.dart';
 class Time {
   int id;
   Category category;
-  Trainee trainee;
   int time;
   UserModel reportedBy;
+  Trainee trainee;
   DateTime createdDate;
 
-  Time({this.id,
+  Time(this.id,
       this.category,
       this.time,
       this.reportedBy,
-      this.createdDate,
-      this.trainee});
+      this.trainee,
+      this.createdDate);
 
   factory Time.fromJson(Map<String, dynamic> json) {
     return Time(
-      id: json['id'],
-      category: Category.fromJson(json['category']),
-      trainee: Trainee.fromJson(json['trainee']),
-      time: json['time'],
-      reportedBy: UserModel.fromJson(json['reported_by']),
-      createdDate: DateTime.parse(json['created_date'])
+      json['id'],
+      Category.fromJson(json['category']),
+      json['time'],
+      UserModel.fromJson(json['reported_by']),
+      Trainee.fromJson(json['trainee']),
+      DateTime.parse(json['created_date'])
     );
   }
 

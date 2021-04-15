@@ -7,7 +7,7 @@ int memberId = 0;
 
 
 MemberModel currentMember(UserModel user) {
-  for (MemberModel m in user.members) {
+  for (MemberModel m in user.members!) {
     if (m.id == memberId) {
       return m;
     }

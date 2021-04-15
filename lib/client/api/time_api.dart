@@ -3,7 +3,7 @@ import 'package:sportswatch/client/http/http.dart';
 import 'package:sportswatch/client/models/time_model.dart';
 
 class TimeApi {
-  TimeApi(this.client, {Key key});
+  TimeApi(this.client, {Key? key});
 
   HttpClient client;
 

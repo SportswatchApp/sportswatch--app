@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 
 class FrontPageScreen extends StatefulWidget {
-  FrontPageScreen({Key key}) : super(key: key);
+  FrontPageScreen({Key? key}) : super(key: key);
 
   @override
   _FrontPageScreenState createState() => _FrontPageScreenState();

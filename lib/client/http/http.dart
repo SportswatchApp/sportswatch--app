@@ -6,7 +6,7 @@ import 'package:sportswatch/client/percist/percist_client.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HttpClient {
-  HttpClient({this.baseUrl, this.storage, this.token});
+  HttpClient(this.baseUrl, this.storage, this.token);
 
   Future<Map<String, String>> get _headers async {
     final Map<String, String> headers = <String, String>{
@@ -14,7 +14,7 @@ class HttpClient {
       'Content-Language': 'da',
     };
 
-    final String token = await storage.get("token");
+    final String? token = await storage.get("token");
 
     if (token != null) {
       headers['Authorization'] = 'Token ' + token;
@@ -28,14 +28,15 @@ class HttpClient {
   final String token;
 
   Stream<Response> get(String url) {
+    Uri uri = Uri.parse(baseUrl + url);
     return Stream<Map<String, String>>.fromFuture(_headers).flatMap(
-        (headers) => _parseJson(http.get(baseUrl + url, headers: headers)));
+        (headers) => _parseJson(http.get(uri, headers: headers)));
   }
 
   Stream<Response> post(String url, [dynamic body]) {
+    Uri uri = Uri.parse(baseUrl + url);
     return Stream<Map<String, String>>.fromFuture(_headers).flatMap((headers) =>
-        _parseJson(http.post(baseUrl + url,
-            headers: headers, body: json.encode(body))));
+        _parseJson(http.post(uri, headers: headers, body: json.encode(body))));
   }
 
   dynamic _bodyHandler(dynamic body) {

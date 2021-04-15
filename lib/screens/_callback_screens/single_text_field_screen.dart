@@ -5,7 +5,7 @@ import 'package:sportswatch/widgets/input/text.dart';
 import 'package:sportswatch/widgets/layout/app_bar.dart';
 
 class SingleTextFieldCallbackScreen extends StatelessWidget {
-  SingleTextFieldCallbackScreen({this.title, this.initialValue});
+  SingleTextFieldCallbackScreen(this.title, this.initialValue);
 
   final String title;
   final String initialValue;

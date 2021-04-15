@@ -1,10 +1,10 @@
 class Trainee {
   final int id;
 
-  Trainee({this.id});
+  Trainee(this.id);
 
   factory Trainee.fromJson(Map<String, dynamic> json) {
-    return Trainee(id: json['id']);
+    return Trainee(json['id']);
   }
 
 }
