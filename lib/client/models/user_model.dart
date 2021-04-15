@@ -2,34 +2,35 @@ import 'package:sportswatch/client/models/member_model.dart';
 
 class UserModel {
   final int id;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final DateTime dateJoined;
-  final List<MemberModel> members;
+  String email;
+  String firstName;
+  String lastName;
+  DateTime dateJoined;
+  List<MemberModel>? members;
 
   UserModel(
-      {this.id,
+      this.id,
       this.email,
       this.firstName,
       this.lastName,
       this.dateJoined,
-      this.members});
+      this.members);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    List<MemberModel> memberList = List<MemberModel>();
+    List<MemberModel> memberList = <MemberModel>[];
     for (Map<String, dynamic> member in json['members'] ?? []) {
-      memberList.add(MemberModel.fromJson(member));
+      var m = MemberModel.fromJson(member);
+      memberList.add(m);
     }
     return UserModel(
-        id: json['id'],
-        email: json['email'] ?? null,
-        firstName: json['first_name'] ?? null,
-        lastName: json['last_name'] ?? null,
-        dateJoined: json.containsKey("date_joined")
+        json['id'],
+        json['email'],
+        json['first_name'],
+        json['last_name'],
+        json.containsKey("date_joined")
             ? DateTime.parse(json['date_joined'])
-            : null,
-        members: memberList);
+            : DateTime.now(),
+        memberList);
   }
 
   String date() {

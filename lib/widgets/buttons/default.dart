@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 
 class AddButton extends StatelessWidget {
-  AddButton({Key key, this.onPressed, this.text});
+  AddButton({this.text, this.onPressed, Key? key});
 
-  final VoidCallback onPressed;
-  final String text;
+  final VoidCallback? onPressed;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,6 @@ class AddButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6.0),
             side: BorderSide(color: SportsWatchColors.primary)),
-        child: Text(this.text, style: new TextStyle(fontSize: 15.0)));
+        child: Text(this.text!, style: new TextStyle(fontSize: 15.0)));
   }
 }

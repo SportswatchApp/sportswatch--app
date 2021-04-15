@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/club_model.dart';
 import 'package:sportswatch/client/models/member_model.dart';
@@ -10,7 +9,7 @@ import 'package:sportswatch/widgets/headings/h1.dart';
 import 'package:sportswatch/widgets/loading/loadingScreen.dart';
 
 class MemberSetupPage extends StatefulWidget {
-  MemberSetupPage({Key key}) : super(key: key);
+  MemberSetupPage({Key? key}) : super(key: key);
 
   @override
   _MemberSetupPageState createState() => _MemberSetupPageState();
@@ -85,7 +84,10 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
     );
 
     return Container(
-      child: SearchableDropdown(
+      child: Text('Placeholder'),
+    );
+
+    /*SearchableDropdown(
           menuBackgroundColor: SportsWatchColors.backgroundColor,
           iconEnabledColor: SportsWatchColors.primary,
           items: items,
@@ -96,7 +98,7 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
           },
           closeButton: "Fortryd",
           searchFn: (String keyword, items) {
-            List<int> ret = List<int>();
+            List<int> ret = <int>[];
             if (keyword != null && items != null && keyword.isNotEmpty) {
               keyword.split(" ").forEach((k) {
                 int i = 0;
@@ -117,14 +119,14 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
             }
             return (ret);
           }),
-    );
+    );*/
   }
 
   void loadClubs() {
     setState(() {
       isLoading = true;
     });
-    _api.club.list().listen((List<ClubModel> results) {
+    _api.club!.list().listen((List<ClubModel> results) {
       setState(() {
         clubs = results;
         isLoading = false;
@@ -150,7 +152,7 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
     setState(() {
       isLoading = true;
     });
-    _api.club.apply(club.id).listen((MemberModel member) {
+    _api.club!.apply(club.id).listen((MemberModel member) {
       setState(() {
         isLoading = false;
         Navigator.of(context).push(

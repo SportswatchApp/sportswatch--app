@@ -14,7 +14,7 @@ import 'package:sportswatch/widgets/loading/default.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _waiting = false;
   bool _loginSuccess = false;
   String _error = "";
-  final TextEditingController emailController = TextEditingController(text: "peter@sorensen.com");
+  final TextEditingController emailController = TextEditingController(text: "tobias@dybdahl.com");
   final TextEditingController passwordController = TextEditingController(text: "qwerty");
   Api _api = Api();
 
@@ -49,8 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           Center(
             child: Image.asset(
-              'static/images/sportswatchlogo.png',
-              width: 60,
+              'static/images/App_logo-02.png',
+              width: 70,
             ),
           ),
           _loadOrShowError(),
@@ -86,8 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
+                'Glemt adgangskode?',
                 onPressed: () => {},
-                text: 'Glemt adgangskode?',
               ),
             ),
           ),
@@ -95,8 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
+                'Opret ny bruger',
                 onPressed: () => _launchSignupWebsite(),
-                text: 'Opret ny bruger',
               ),
             ),
           )
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-    _api.users.login(emailController.text, passwordController.text).listen((event) {
+    _api.users!.login(emailController.text, passwordController.text).listen((event) {
       setState(() {
         _waiting = false;
         _error = "";

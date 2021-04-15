@@ -12,17 +12,17 @@ import 'package:sportswatch/globals.dart' as globals;
 import 'member_setup.dart';
 
 class MemberSelectionScreen extends StatefulWidget {
-  MemberSelectionScreen({Key key}) : super(key: key);
+  MemberSelectionScreen({Key? key}) : super(key: key);
 
   @override
   _MemberSelectionScreenState createState() => _MemberSelectionScreenState();
 }
 
 class _MemberSelectionScreenState extends State<MemberSelectionScreen> {
-  List<MemberModel> members;
+  List<MemberModel>? members;
   bool isLoading = false;
   Api _api = Api();
-  String error;
+  String? error;
 
   @override
   void initState() {
@@ -45,15 +45,15 @@ class _MemberSelectionScreenState extends State<MemberSelectionScreen> {
         child: ListView.separated(
           shrinkWrap: true,
           padding: const EdgeInsets.all(10),
-          itemCount: members.length + 1,
+          itemCount: members!.length + 1,
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
               return _buildHeading();
             }
             return SimpleTextButton(
-              text: members[index - 1].club.name,
+              members![index - 1].club.name,
               onPressed: () =>
-                  _setGlobalMemberAndGoToFrontPage(context, members[index - 1]),
+                  _setGlobalMemberAndGoToFrontPage(context, members![index - 1]),
               color: SportsWatchColors.fontColor,
             );
           },
@@ -77,20 +77,22 @@ class _MemberSelectionScreenState extends State<MemberSelectionScreen> {
     setState(() {
       isLoading = true;
     });
-    _api.user.get().listen((UserModel userModel) {
-      if (userModel.members.length == 0) {
+    _api.user!.get().listen((UserModel userModel) {
+      if (userModel.members!.length == 0) {
         _goToSetupPage();
-      } else if (userModel.members.length == 1) {
-        _setGlobalMemberAndGoToFrontPage(context, userModel.members.first);
+      } else if (userModel.members!.length == 1) {
+        _setGlobalMemberAndGoToFrontPage(context, userModel.members!.first);
       } else {
         setState(() {
-          members = userModel.members;
+          members = userModel.members!;
           isLoading = false;
         });
       }
     }, onError: (_error) {
       setState(() {
-        error = _error.detail;
+        if (error != null) {
+          error = _error.detail;
+        }
         isLoading = false;
       });
     });

@@ -20,7 +20,7 @@ class _MainScaffoldControllerState extends State<MainScaffoldController> {
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
-            !await _navigatorKeys[_selectedIndex].currentState.maybePop();
+            !await _navigatorKeys[_selectedIndex].currentState!.maybePop();
         // let system handle back button if we're on the first route
         return isFirstRouteInCurrentTab;
       },
@@ -34,6 +34,7 @@ class _MainScaffoldControllerState extends State<MainScaffoldController> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: SportsWatchColors.appBarColor,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                   icon: Icon(Icons.timer),
@@ -65,7 +66,7 @@ class _MainScaffoldControllerState extends State<MainScaffoldController> {
         key: _navigatorKeys[index],
         onGenerateRoute: (routeSettings) {
           return MaterialPageRoute(
-            builder: (context) => routeBuilders[routeSettings.name](context),
+            builder: (context) => routeBuilders[routeSettings.name]!(context),
           );
         },
       ),

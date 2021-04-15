@@ -12,10 +12,10 @@ class Application extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.black,
-        brightness: Brightness.dark,
-        primaryColor: Colors.black,
-        accentColor: Colors.black,
+        scaffoldBackgroundColor: Colors.blue,
+        brightness: Brightness.light,
+        primaryColor: Colors.white,
+        accentColor: Colors.white,
         fontFamily: 'Quicksand',
       ),
       home: LoginScreen()

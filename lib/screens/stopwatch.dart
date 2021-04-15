@@ -41,18 +41,19 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
       padding: const EdgeInsets.only(top: 50),
       child: StreamBuilder<int>(
         stream: _stopWatchTimer.rawTime,
-        initialData: _stopWatchTimer.rawTime.value,
+        initialData: 0 /*_stopWatchTimer.rawTime.value*/,
         builder: (context, snap) {
           final value = snap.data;
           final displayTime =
-              StopWatchTimer.getDisplayTime(value, hours: false, minute: false);
+              StopWatchTimer.getDisplayTime(value!, hours: false, minute: false);
           return Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
                   displayTime,
-                  style: const TextStyle(fontSize: 80),
+                  style: const TextStyle(
+                      fontSize: 80, color: SportsWatchColors.headingColor),
                 ),
               )
             ],
@@ -64,14 +65,15 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   Widget _startStop() {
     return ButtonTheme(
-      minWidth: 300,
-      height: 300,
+      minWidth: 250,
+      height: 250,
       child: RaisedButton(
         color: SportsWatchColors.primary,
         shape: CircleBorder(),
         child: Text(
           _startOrStop,
-          style: TextStyle(fontSize: 40),
+          style:
+              TextStyle(fontSize: 40, color: SportsWatchColors.backgroundColor),
         ),
         onPressed: () async {
           if (_stopWatchTimer.isRunning) {
@@ -92,10 +94,10 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   Widget _resetTime() {
     return Padding(
-      padding: EdgeInsets.all(2),
+      padding: EdgeInsets.all(30),
       child: RaisedButton(
         color: SportsWatchColors.primary,
-        child: Text('reset'),
+        child: Text('Nulstil', style: TextStyle(color: SportsWatchColors.white)),
         onPressed: () async {
           _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
         },
@@ -105,10 +107,13 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   Widget _uploadTime() {
     return Padding(
-      padding: EdgeInsets.all(2),
+      padding: EdgeInsets.all(30),
       child: RaisedButton(
         color: SportsWatchColors.greenColor,
-        child: Text('Upload'),
+        child: Text(
+          'Upload',
+          style: TextStyle(color: SportsWatchColors.white),
+        ),
         onPressed: () async {
           uploadBtnFunction();
         },

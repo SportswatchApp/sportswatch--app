@@ -51,10 +51,10 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
                 return _buildCreateClubButton();
               }
               return SimpleTextButton(
-                text: values[index] != '' ? values[index] : textFields[index],
+                values[index] != '' ? values[index] : textFields[index],
                 onPressed: () => _navigateAndDisplayInputField(context, index),
                 color:
-                values[index] != '' ? Colors.white : SportsWatchColors
+                values[index] != '' ? SportsWatchColors.primary : SportsWatchColors
                     .fontColor,
               );
             },
@@ -81,7 +81,7 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
       MaterialPageRoute(
         builder: (context) =>
             SingleTextFieldCallbackScreen(
-                title: textFields[index], initialValue: values[index]),
+                textFields[index], values[index]),
       ),
     );
 
@@ -94,12 +94,13 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
     setState(() {
       isLoading = true;
     });
-    _api.club.create(ClubModel(
-        name: values[0],
-        zipCode: values[1],
-        city: values[2],
-        country: values[3],
-        region: values[4]
+    _api.club!.create(ClubModel(
+        0,
+        values[0],
+        values[1],
+        values[2],
+        values[3],
+        values[4]
     )).listen((ClubModel club) {
       _onClubCreatedSuccess();
     }, onError: (_error) {
