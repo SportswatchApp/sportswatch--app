@@ -35,4 +35,9 @@ class ClubModel {
       'region': this.region
     };
   }
+
+  @override
+  String toString() {
+    return '$name ($city)';
+  }
 }

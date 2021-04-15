@@ -46,7 +46,7 @@ class HttpClient {
   Stream<Response> _parseJson(Future<http.Response> response) {
     return Stream<http.Response>.fromFuture(response).map((http.Response res) {
 
-      Map<String, dynamic> json = jsonDecode(res.body);
+      Map<String, dynamic> json = jsonDecode(utf8.decode(res.body.codeUnits));
 
       if (res.statusCode > 300) {
         throw ApiException(Response(res, json));

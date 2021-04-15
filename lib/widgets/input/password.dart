@@ -15,6 +15,9 @@ class PasswordInputField extends StatelessWidget {
         autocorrect: false,
         obscureText: true,
         cursorColor: SportsWatchColors.primary,
+        style: TextStyle(
+            fontSize: 17
+        ),
         decoration: InputDecoration(
           filled: true,
           fillColor: SportsWatchColors.normalGrey,

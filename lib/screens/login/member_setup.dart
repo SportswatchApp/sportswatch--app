@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/club_model.dart';
 import 'package:sportswatch/client/models/member_model.dart';
@@ -47,16 +48,15 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
               Heading1("til SportsWatch"),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text('Du har følgende valgmuligheder'),
+                child: makeText('Du har følgende valgmuligheder'),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: RaisedButton.icon(
-                  padding: EdgeInsets.all(13),
+                child: ElevatedButton.icon(
                   onPressed: () => {},
-                  icon: Icon(Icons.add_business),
-                  label: Text("Opret ny forening"),
-                  color: SportsWatchColors.primary,
+                  icon: Icon(Icons.add_business, color: Colors.white),
+                  label: whiteText("Opret ny forening"),
+                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(15)),
                 ),
               ),
               Text('eller'),
@@ -71,12 +71,16 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
 
   Widget searchClubsPopup() {
     List<DropdownMenuItem> items = [];
-    var value;
     clubs.forEach(
-      (club) {
+          (club) {
         items.add(
           DropdownMenuItem(
-            child: Text(club.name),
+            child: SizedBox(
+              child: Text(club.name,
+                  style: TextStyle(
+                    fontSize: 18,
+                  )),
+            ),
             value: club,
           ),
         );
@@ -84,7 +88,60 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
     );
 
     return Container(
-      child: Text('Placeholder'),
+      child: SearchChoices.single(
+        items: items,
+        value: selectedClub,
+        hint: "Vælg klub",
+        searchHint: Text("Vælg klub",
+            style: TextStyle(color: SportsWatchColors.lighterFontColor)),
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: SportsWatchColors.primary,
+        ),
+        onChanged: (value) {
+          selectedClub = value;
+          showApplicationConfirmation();
+        },
+        searchInputDecoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.search,
+            size: 24,
+            color: SportsWatchColors.fontColor,
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 12),
+        ),
+        isExpanded: true,
+        displayClearIcon: false,
+        style: TextStyle(
+          fontSize: 18,
+          color: SportsWatchColors.fontColor,
+        ),
+        closeButton: 'Fortryd',
+        menuBackgroundColor: SportsWatchColors.backgroundColor,
+        iconEnabledColor: SportsWatchColors.primary,
+        searchFn: (String keyword, items) {
+          List<int> ret = <int>[];
+          if (keyword != null && items != null && keyword.isNotEmpty) {
+            keyword.split(" ").forEach((k) {
+              int i = 0;
+              items.forEach((item) {
+                if (k.isNotEmpty &&
+                    (item.value.name
+                        .toString()
+                        .toLowerCase()
+                        .contains(k.toLowerCase()))) {
+                  ret.add(i);
+                }
+                i++;
+              });
+            });
+          }
+          if (keyword.isEmpty) {
+            ret = Iterable<int>.generate(items.length).toList();
+          }
+          return (ret);
+        },
+      ),
     );
 
     /*SearchableDropdown(
@@ -137,13 +194,15 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
     });
   }
 
-  void showApplicationConfirmation(ClubModel club) {
-    if (club != null) {
+  void showApplicationConfirmation() {
+    if (selectedClub != null) {
       ConfirmationMessage(
-          "Ansøg til " + club.name,
-          "Vil du ansøge om medlemsskab hos " + club.name + "?",
+          "Ansøg til " + selectedClub.name,
+          "Vil du ansøge om medlemsskab hos " + selectedClub.name + "?",
           "Ansøg",
-          () => runClubApplication(club)).showAlertDialog(context);
+              () => runClubApplication(selectedClub),
+          onCancel: () => selectedClub = null,
+      ).showAlertDialog(context);
     }
   }
 
@@ -164,5 +223,17 @@ class _MemberSetupPageState extends State<MemberSetupPage> {
         isLoading = false;
       });
     });
+  }
+
+  Text makeText(String msg, {Color? c}) {
+    return Text(
+      msg,
+      style: TextStyle(
+          color: c == null ? SportsWatchColors.fontColor : c, fontSize: 18),
+    );
+  }
+
+  Text whiteText(String msg) {
+    return makeText(msg, c: Colors.white);
   }
 }

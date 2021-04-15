@@ -28,6 +28,9 @@ class TextInputField extends StatelessWidget {
         onTap: this.onTap,
         onEditingComplete: onEditingComplete,
         autofocus: this.autoFocus == null ? false : true,
+        style: TextStyle(
+          fontSize: 17
+        ),
         decoration: InputDecoration(
           filled: true,
           fillColor: SportsWatchColors.normalGrey,

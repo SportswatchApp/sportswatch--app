@@ -3,7 +3,6 @@ import 'package:sportswatch/widgets/buttons/default.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 
 class AlertMessage {
-
   AlertMessage(this.title, this.message);
 
   String title;
@@ -13,7 +12,9 @@ class AlertMessage {
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
-      onPressed: () {Navigator.pop(context);},
+      onPressed: () {
+        Navigator.pop(context);
+      },
     );
 
     // set up the AlertDialog
@@ -35,22 +36,26 @@ class AlertMessage {
   }
 }
 
-
 class ConfirmationMessage {
-
-  ConfirmationMessage(this.title, this.message, this.okText, this.onOk);
+  ConfirmationMessage(this.title, this.message, this.okText, this.onOk,
+      {this.onCancel});
 
   String title;
   String message;
   String okText;
   VoidCallback onOk;
-
+  VoidCallback? onCancel;
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text("Annullér"),
-      onPressed:  () {Navigator.pop(context);},
+      onPressed: () {
+        if (onCancel != null) {
+          onCancel!.call();
+        }
+        Navigator.pop(context);
+      },
     );
     Widget continueButton = AddButton(text: okText, onPressed: this.onOk);
     // set up the AlertDialog
@@ -71,5 +76,4 @@ class ConfirmationMessage {
       },
     );
   }
-
 }

@@ -15,7 +15,7 @@ class SimpleTextButton extends StatelessWidget {
       child: Text(
         this.text,
         style: new TextStyle(
-            fontSize: 15.0,
+            fontSize: 17.0,
             color:
                 this.color == null ? SportsWatchColors.fontColor : this.color),
       ),

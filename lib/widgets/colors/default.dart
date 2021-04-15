@@ -13,6 +13,7 @@ class SportsWatchColors {
   static const Color primary = lightBlue;
   static const Color backgroundColor = Color.fromRGBO(255, 255, 255, 1);
   static const Color fontColor = Color.fromRGBO(100, 100, 100, 1);
+  static const Color lighterFontColor = Color.fromRGBO(140, 140, 140, 1);
   static const Color greenColor = Color.fromRGBO(103, 172, 91, 1);
   static const Color errorColor = Color.fromRGBO(204, 0, 0, 1);
 

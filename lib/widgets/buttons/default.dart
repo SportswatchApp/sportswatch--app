@@ -16,6 +16,6 @@ class AddButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6.0),
             side: BorderSide(color: SportsWatchColors.primary)),
-        child: Text(this.text!, style: new TextStyle(fontSize: 15.0)));
+        child: Text(this.text!, style: new TextStyle(fontSize: 17.0)));
   }
 }
