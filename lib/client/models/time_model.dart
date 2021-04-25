@@ -1,31 +1,31 @@
-import 'package:sportswatch/client/models/category_model.dart';
+import 'package:sportswatch/client/models/category.dart';
 import 'package:sportswatch/client/models/trainee_model.dart';
 import 'package:sportswatch/client/models/user_model.dart';
 
-class TimeModel {
+class Time {
   int id;
   CategoryModel category;
-  TraineeModel trainee;
   int time;
   UserModel reportedBy;
+  TraineeModel trainee;
   DateTime createdDate;
 
-  TimeModel(
-      {this.id,
+  Time({this.id,
       this.category,
       this.time,
       this.reportedBy,
-      this.createdDate,
-      this.trainee});
+      this.trainee,
+      this.createdDate);
 
-  factory TimeModel.fromJson(Map<String, dynamic> json) {
-    return TimeModel(
-        id: json['id'],
-        category: CategoryModel.fromJson(json['category']),
-        trainee: TraineeModel.fromJson(json['trainee']),
-        time: json['time'],
-        reportedBy: UserModel.fromJson(json['reported_by']),
-        createdDate: DateTime.parse(json['created_date']));
+  factory Time.fromJson(Map<String, dynamic> json) {
+    return Time(
+      json['id'],
+      CategoryModel.fromJson(json['category']),
+      json['time'],
+      UserModel.fromJson(json['reported_by']),
+      TraineeModel.fromJson(json['trainee']),
+      DateTime.parse(json['created_date'])
+    );
   }
 
   Map<String, dynamic> toJson() {

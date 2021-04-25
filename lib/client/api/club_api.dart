@@ -4,7 +4,7 @@ import 'package:sportswatch/client/models/club_model.dart';
 import 'package:sportswatch/client/models/member_model.dart';
 
 class ClubApi {
-  ClubApi(this.client, {Key key});
+  ClubApi(this.client, {Key? key});
 
   HttpClient client;
 

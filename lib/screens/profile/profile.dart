@@ -17,9 +17,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Api _api = Api();
-  UserModel user;
-  MemberModel member;
-  String error;
+  UserModel? user;
+  MemberModel? member;
+  String? error;
   bool isLoading = true;
 
   @override
@@ -39,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body: RefreshIndicator(
+        backgroundColor: SportsWatchColors.primary,
         child: buildProfile(),
         onRefresh: () async {
           loadUserData();
@@ -60,8 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Divider(),
           buildClubInformation(),
           SimpleTextButton(
+            "+ Opret ny klub",
             onPressed: _pushCreateClubScreen,
-            text: "+ Opret ny klub",
           ),
         ],
       );
@@ -69,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildProfileInformation() {
-    return displayProfileInformation(user);
+    return displayProfileInformation(user!);
   }
 
   Widget displayProfileInformation(UserModel user) {
@@ -84,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ListTile(
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 5.00, horizontal: 20),
-                  leading: Icon(Icons.account_circle, size: 35),
+                  leading: Icon(Icons.account_circle, size: 35, color: SportsWatchColors.lightBlue,),
                   title: Text(user.firstName + ' ' + user.lastName),
                   subtitle: Text(user.email)),
             ],
@@ -106,9 +107,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ListTile(
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 5.00, horizontal: 20),
-                  leading: Icon(Icons.emoji_events, size: 35),
-                  title: Text(member.club.name),
-                  subtitle: Text(member.club.name)),
+                  leading: Icon(Icons.emoji_events, size: 35, color: SportsWatchColors.lightBlue),
+                  title: Text(member!.club.name),
+                  subtitle: Text(member!.club.name)),
             ],
           ),
         ),
@@ -121,10 +122,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoading = true;
     });
-    _api.user.get().listen((UserModel userModel) {
+    _api.user!.get().listen((UserModel userModel) {
       setState(() {
         user = userModel;
-        member = currentMember(user);
+        member = currentMember(user!);
         isLoading = false;
       });
     });
@@ -142,6 +143,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _pushSettingsTab() {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProfileSettingsScreen(member)));
+        MaterialPageRoute(builder: (context) => ProfileSettingsScreen(member!)));
   }
 }

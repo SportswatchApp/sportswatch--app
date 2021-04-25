@@ -11,7 +11,7 @@ class ApiException implements Exception {
   final Response response;
 
   /// The message describing the error
-  String detail;
+  String? detail;
 
   @override
   String toString() => '[ApiException]: ${response.json['detail']}';

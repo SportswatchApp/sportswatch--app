@@ -9,7 +9,7 @@ import 'package:sportswatch/client/percist/percist_client.dart';
 
 class UsersApi {
 
-  UsersApi(this.client, {Key key});
+  UsersApi(this.client);
 
   HttpClient client;
 

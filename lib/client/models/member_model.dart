@@ -12,24 +12,25 @@ class MemberModel {
   final bool active;
 
   MemberModel(
-      {this.id,
+      this.id,
       this.club,
       this.dateJoined,
-      this.user,
       this.isTrainee,
       this.isCoach,
       this.isAdmin,
-      this.active});
+      this.active,
+      this.user);
 
   factory MemberModel.fromJson(Map<String, dynamic> json) {
     return MemberModel(
-      id: json['id'],
-      club: ClubModel.fromJson(json['club']),
-      dateJoined: DateTime.parse(json['date_joined']),
-      isTrainee: json['is_trainee'],
-      isAdmin: json['isAdmin'],
-      isCoach: json['isCoach'],
-      user: UserModel.fromJson(json['user']),
+        json['id'],
+        ClubModel.fromJson(json['club']),
+        DateTime.parse(json['date_joined']),
+        json['is_trainee'],
+        json['is_admin'],
+        json['is_coach'],
+        json['active'],
+        UserModel(json['user']['id'], "a", "a", "a", DateTime.now(), <MemberModel>[])
     );
   }
 
@@ -40,4 +41,5 @@ class MemberModel {
       'date_joined': this.dateJoined.toString(),
     };
   }
+
 }

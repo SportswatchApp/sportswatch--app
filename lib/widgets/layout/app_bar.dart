@@ -5,10 +5,10 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
   final String title;
-  final Widget leading;
-  final Widget second;
+  final Widget? leading;
+  final Widget? second;
 
-  CustomAppBar(this.title, {Key key, Widget leading, Widget second})
+  CustomAppBar(this.title, {Widget? leading, Widget? second, Key? key})
       : preferredSize = Size.fromHeight(50.0),
         second = second,
         leading = leading,

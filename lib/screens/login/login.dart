@@ -14,7 +14,7 @@ import 'package:sportswatch/widgets/loading/default.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -24,10 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _waiting = false;
   bool _loginSuccess = false;
   String _error = "";
-  final TextEditingController emailController =
-      TextEditingController(text: "tobias@dybdahl.com");
-  final TextEditingController passwordController =
-      TextEditingController(text: "qwerty");
+  final TextEditingController emailController = TextEditingController(text: "tobias@dybdahl.com");
+  final TextEditingController passwordController = TextEditingController(text: "qwerty");
   Api _api = Api();
 
   @override
@@ -51,8 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           Center(
             child: Image.asset(
-              'static/images/sportswatchlogo.png',
-              width: 60,
+              'static/images/App_logo-02.png',
+              width: 70,
             ),
           ),
           _loadOrShowError(),
@@ -88,8 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
+                'Glemt adgangskode?',
                 onPressed: () => {},
-                text: 'Glemt adgangskode?',
               ),
             ),
           ),
@@ -97,8 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 0),
             child: Center(
               child: SimpleTextButton(
+                'Opret ny bruger',
                 onPressed: () => _launchSignupWebsite(),
-                text: 'Opret ny bruger',
               ),
             ),
           )
@@ -113,8 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-    _api.users.login(emailController.text, passwordController.text).listen(
-        (event) {
+    _api.users!.login(emailController.text, passwordController.text).listen((event) {
       setState(() {
         _waiting = false;
         _error = "";
@@ -122,8 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => pageAfterLoginSuccess()),
-          (route) => false);
+          MaterialPageRoute(builder: (context) => pageAfterLoginSuccess()), (route) => false);
     }, onError: (error) {
       if (error is SocketException) {
         setState(() {
@@ -145,16 +141,19 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_waiting) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Center(child: LoadingCircle()),
+        child: Center(
+          child: LoadingCircle()
+        ),
       );
     } else if (_error.isNotEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Center(child: Text(_error)),
+        child: Center(
+            child: Text(_error)
+        ),
       );
     } else {
-      return Padding(
-          padding: EdgeInsets.symmetric(vertical: 0), child: Text(''));
+      return Padding(padding: EdgeInsets.symmetric(vertical: 0), child: Text(''));
     }
   }
 
@@ -168,7 +167,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   AlertMessage connectionErrorAlert() {
-    return AlertMessage("Kunne ikke oprette forbindelse",
-        "Det var ikke muligt at oprette forbindelse til serveren. Prøv igen senere");
+    return AlertMessage(
+        "Kunne ikke oprette forbindelse",
+        "Det var ikke muligt at oprette forbindelse til serveren. Prøv igen senere"
+    );
   }
+
 }

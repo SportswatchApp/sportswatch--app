@@ -3,7 +3,7 @@ import 'package:sportswatch/client/http/http.dart';
 import 'package:sportswatch/client/models/user_model.dart';
 
 class UserApi {
-  UserApi(this.client, {Key key});
+  UserApi(this.client, {Key? key});
 
   HttpClient client;
 

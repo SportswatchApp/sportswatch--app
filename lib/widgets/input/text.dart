@@ -3,7 +3,7 @@ import 'package:sportswatch/widgets/colors/default.dart';
 
 class TextInputField extends StatelessWidget {
   TextInputField(
-      {Key key,
+      {Key? key,
       this.hintText,
       this.controller,
       this.keyboardType,
@@ -11,12 +11,12 @@ class TextInputField extends StatelessWidget {
       this.autoFocus,
       this.onEditingComplete});
 
-  final String hintText;
-  TextEditingController controller;
-  TextInputType keyboardType;
-  GestureTapCallback onTap;
-  bool autoFocus;
-  VoidCallback onEditingComplete;
+  final String? hintText;
+  TextEditingController? controller;
+  TextInputType? keyboardType;
+  GestureTapCallback? onTap;
+  bool? autoFocus;
+  VoidCallback? onEditingComplete;
 
 
   @override
@@ -27,7 +27,7 @@ class TextInputField extends StatelessWidget {
         cursorColor: SportsWatchColors.primary,
         onTap: this.onTap,
         onEditingComplete: onEditingComplete,
-        autofocus: this.autoFocus == null ? false : this.autoFocus,
+        autofocus: this.autoFocus == null ? false : true,
         decoration: InputDecoration(
           filled: true,
           fillColor: SportsWatchColors.normalGrey,

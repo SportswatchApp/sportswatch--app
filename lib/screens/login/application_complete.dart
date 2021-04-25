@@ -17,9 +17,9 @@ class ApplicationDoneScreen extends StatefulWidget {
 
 class _ApplicationDoneScreenState extends State<ApplicationDoneScreen> {
   Api _api = Api();
-  UserModel user;
-  MemberModel member;
-  String error;
+  UserModel? user;
+  MemberModel? member;
+  String? error;
   bool isLoading = true;
 
   @override
@@ -39,6 +39,7 @@ class _ApplicationDoneScreenState extends State<ApplicationDoneScreen> {
         ),
       ),
       body: RefreshIndicator(
+        backgroundColor: SportsWatchColors.primary,
         child: buildProfile(),
         onRefresh: () async {
           loadApplicationData();
