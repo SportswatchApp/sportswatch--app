@@ -49,10 +49,10 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
       padding: const EdgeInsets.only(top: 50),
       child: StreamBuilder<int>(
         stream: _stopWatchTimer.rawTime,
-        initialData: _stopWatchTimer.rawTime.value,
+        initialData: 0,
         builder: (context, snap) {
           final stopwatchValue = snap.data;
-          final _displayTime = StopWatchTimer.getDisplayTime(stopwatchValue,
+          final _displayTime = StopWatchTimer.getDisplayTime(stopwatchValue!,
               hours: false, minute: false);
 
           return Column(

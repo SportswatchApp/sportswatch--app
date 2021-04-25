@@ -1,83 +1,70 @@
-/*
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(new MaterialApp(home: new MyApp()));
-}
+void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      //enable this line if you want test Dark Mode
+      //theme: ThemeData.dark(),
+      home: MyHomePage(),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
+  final _openDropDownProgKey = GlobalKey<DropdownSearchState<String>>();
+  String _itemChosen = "hello";
+  ModelUserTest first = new ModelUserTest("one", 1);
+  ModelUserTest secound = new ModelUserTest("two", 2);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    content: Stack(
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Positioned(
-                          right: -40.0,
-                          top: -40.0,
-                          child: InkResponse(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: CircleAvatar(
-                              child: Icon(Icons.close),
-                              backgroundColor: Colors.red,
-                            ),
-                          ),
-                        ),
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: TextFormField(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: TextFormField(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RaisedButton(
-                                  child: Text("Submitß"),
-                                  onPressed: () {
-                                    if (_formKey.currentState.validate()) {
-                                      _formKey.currentState.save();
-                                    }
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                });
-          },
-          child: Text("Open Popup"),
+      appBar: AppBar(title: Text("DropdownSearch Demo")),
+      body: Padding(
+        padding: const EdgeInsets.all(25),
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: ListView(
+            padding: EdgeInsets.all(4),
+            children: <Widget>[
+              Text(_itemChosen),
+
+              ///Menu Mode with no searchBox
+              DropdownSearch<ModelUserTest>(
+                hint: "Select a country",
+                mode: Mode.MENU,
+                items: [first, secound],
+                itemAsString: (ModelUserTest? u) => u!.name,
+                label: "Menu mode",
+                showClearButton: true,
+                showSearchBox: true,
+                onChanged: (ModelUserTest? chosen) => setState(() {
+                  _itemChosen = chosen!.value.toString();
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-*/
+
+class ModelUserTest {
+  String name = "";
+  int value = 0;
+
+  ModelUserTest(this.name, this.value);
+}
