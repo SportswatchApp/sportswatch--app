@@ -8,7 +8,7 @@ import 'package:sportswatch/client/models/trainee_model.dart';
 class TranieeApi {
   HttpClient client;
 
-  TranieeApi(this.client, {Key key});
+  TranieeApi(this.client, {Key? key});
 
   Stream<List<TraineeModel>> getTranieeList() {
     return client.get("trainees/").map((Response response) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:sportswatch/client/api/api.dart';
 import 'package:sportswatch/client/models/category_model.dart';
 import 'package:sportswatch/client/models/member_model.dart';
@@ -20,6 +19,7 @@ class UploadDialog extends StatefulWidget {
   UploadDialog(this.time);
 
   int time;
+
   @override
   State<StatefulWidget> createState() => _UploadDialogState(time);
 }
@@ -30,13 +30,13 @@ class _UploadDialogState extends State<UploadDialog> {
   }
 
   final Api _api = Api();
-  PopupReturnMessage returnMessage = PopupReturnMessage();
+  PopupReturnMessage returnMessage = PopupReturnMessage(false, "");
   TimeModel _timeObject;
   List<TraineeModel> traniees = [];
   List<CategoryModel> categories = [];
   int _time = 0;
   TraineeModel _trainee;
-  CategoryModel _category = CategoryModel(id: 1);
+  CategoryModel _category = CategoryModel(1, "");
   DateTime _selectedDate = DateTime.now();
 
   @override
@@ -147,18 +147,18 @@ class _UploadDialogState extends State<UploadDialog> {
 
   Widget uploadPopup_date() {
     return SimpleTextButton(
+      _selectedDate.toLocal().toString().split(' ')[0],
       onPressed: () async => {dateSelector(this.context)},
-      text: _selectedDate.toLocal().toString().split(' ')[0],
       color: Colors.white,
     );
   }
 
   Future<Null> dateSelector(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime picked = (await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2010, 1),
-        lastDate: DateTime(2100));
+        lastDate: DateTime(2100)))!;
 
     if (picked != null && picked != _selectedDate) {
       setState(() {
@@ -168,7 +168,7 @@ class _UploadDialogState extends State<UploadDialog> {
   }
 
   void loadClubData() {
-    _api.trainee.getTranieeList().listen((List<TraineeModel> result) {
+    _api.trainee!.getTranieeList().listen((List<TraineeModel> result) {
       setState(() {
         traniees = result;
       });
@@ -176,7 +176,7 @@ class _UploadDialogState extends State<UploadDialog> {
   }
 
   void uploadTime(TimeModel timeObject) {
-    _api.time.create(timeObject).listen((TimeModel timeModel) {
+    _api.time!.create(timeObject).listen((TimeModel timeModel) {
       returnMessage.success = true;
       returnMessage.message = "Upload successfull";
       print(timeModel.toJson());
@@ -187,19 +187,16 @@ class _UploadDialogState extends State<UploadDialog> {
 
   void makeTimeObject() {
     setState(() {
-      _timeObject = TimeModel(
-          time: _time,
-          trainee: _trainee,
-          category: _category,
-          createdDate: _selectedDate);
+      _timeObject =
+          TimeModel(0, _category, _time, null, _trainee, _selectedDate);
     });
   }
 
   void loadTraineesCategories(TraineeModel trainee) {
     List<CategoryModel> someResult = [];
-    someResult.add(CategoryModel(id: 1, name: "10 høje"));
-    someResult.add(CategoryModel(id: 2, name: "Obel"));
-    someResult.add(CategoryModel(id: 3, name: "Fri"));
+    someResult.add(CategoryModel(1, "10 høje"));
+    someResult.add(CategoryModel(2, "Obel"));
+    someResult.add(CategoryModel(3, "Fri"));
 
     setState(() {
       categories = someResult;

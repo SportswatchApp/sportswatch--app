@@ -2,5 +2,5 @@ class PopupReturnMessage {
   bool success;
   String message;
 
-  PopupReturnMessage({this.success, this.message});
+  PopupReturnMessage(this.success, this.message);
 }

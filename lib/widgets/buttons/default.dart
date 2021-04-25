@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sportswatch/widgets/colors/default.dart';
 
 class AddButton extends StatelessWidget {
-  AddButton({this.text, this.onPressed, Key? key});
+  AddButton({this.text, this.onPressed, this.backgroundColor, Key? key});
 
-  final VoidCallback? onPressed;
-  final String? text;
-  final Color? backgroundColor;
+  VoidCallback? onPressed;
+  String? text;
+  Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
